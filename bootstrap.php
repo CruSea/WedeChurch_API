@@ -21,7 +21,7 @@ $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__."/module/Ne
 //$config = Setup::createXMLMetadataConfiguration(array(__DIR__."/config/xml"), $isDevMode);
 //$config = Setup::createYAMLMetadataConfiguration(array(__DIR__."/config/yaml"), $isDevMode);
 
-// database configuration parameters
+// database configuration parametersgit
 $conn = array(
     'dbname' => 'NegaritSMS',
     'user' => 'bengeos',

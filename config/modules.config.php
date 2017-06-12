@@ -16,6 +16,4 @@ return [
     'Application',
     'DoctrineModule',
     'DoctrineORMModule',
-    'NegaritSMS',
-    'PhoneBook',
 ];

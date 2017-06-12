@@ -24,9 +24,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Application\\": "module/Application/src/",
-            "NegaritSMS\\": "module/NegaritSMS/src/",
-            "PhoneBook\\": "module/PhoneBook/src/"
+            "Application\\": "module/Application/src/"
         }
     },
     "autoload-dev": {
