@@ -16,7 +16,7 @@ $dbParams = array(
     'port' => 8889,
     'username' => 'bengeos',
     'password' => 'passben',
-    'database' => 'NegaritSMS'
+    'database' => 'WedeChurch'
 );
 return array(
     'doctrine' => array(
