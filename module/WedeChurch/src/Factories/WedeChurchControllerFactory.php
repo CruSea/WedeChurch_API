@@ -11,6 +11,8 @@ namespace WedeChurch\Factories;
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
+use WedeChurch\Controllers\WedeChurchController;
+use WedeChurch\Services\Service;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\FactoryInterface;
@@ -32,6 +34,7 @@ class WedeChurchControllerFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        // TODO: Implement __invoke() method.
+        $entityManager = $container->get('doctrine.entitymanager.orm_default');
+        return new WedeChurchController(new Service($entityManager));
     }
 }

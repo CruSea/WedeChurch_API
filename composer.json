@@ -24,7 +24,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Application\\": "module/Application/src/"
+            "Application\\": "module/Application/src/",
+            "WedeChurch\\": "module/WedeChurch/src/"
         }
     },
     "autoload-dev": {
