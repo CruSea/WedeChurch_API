@@ -9,6 +9,7 @@
 namespace WedeChurch\Services;
 
 
+use WedeChurch\Entities\Privilege;
 use WedeChurch\Entities\User;
 
 interface ServicesMethods
@@ -23,4 +24,13 @@ interface ServicesMethods
     public function checkUser(User $user);
     public function updateUser(User $user);
     public function removeUser(User $user);
+
+    /**
+     * Company Privilege
+     * @return mixed
+     */
+    public function addPrivilege(Privilege $privilege);
+    public function getPrivilege(Privilege $privilege);
+    public function getAllPrivilege();
+    public function getLessPrivilege(Privilege $privilege);
 }

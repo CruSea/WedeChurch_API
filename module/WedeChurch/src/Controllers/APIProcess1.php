@@ -8,6 +8,7 @@
 
 namespace WedeChurch\Controllers;
 
+use WedeChurch\Entities\Privilege;
 use WedeChurch\Entities\User;
 use WedeChurch\Services\Service;
 
@@ -41,9 +42,15 @@ class RequestFormat extends BasicEnum {
 }
 abstract class AvailableServices extends BasicEnum {
     const AUTHENTICATE = 'log_in';
+    const REGISTER = 'register';
 }
 class FORMAT_ByItemID extends BasicEnum {
     const ITEM_ID = 'item_id';
+}
+class FORMAT_REGISTER extends BasicEnum {
+    const USER_NAME = 'user_name';
+    const USER_PASS = 'user_pass';
+    const FULL_NAME = 'full_name';
 }
 class APIProcess1
 {
@@ -136,13 +143,45 @@ class APIProcess1
                     $this->Message[ResponsesType::ERROR] = Responses::Failed_Login;
                 }
                 return true;
-            } elseif ($this->getRequestedService() == AvailableServices::LOG_IN) {
+            } elseif ($this->getRequestedService() == AvailableServices::AUTHENTICATE) {
                 /** Log in user */
                 $found = $this->getMainUser();
                 if ($found) {
                     $this->Message[ResponsesType::RESPONSE] = $found->getArray();
                 } else {
                     $this->Message[ResponsesType::ERROR] = Responses::Failed_Login;
+                }
+            } elseif ($this->getRequestedService() == AvailableServices::REGISTER) {
+                /** Sign up new user */
+                if (FORMAT_REGISTER::isValidParam($this->getRequestParam())) {
+                    $superAdmin = $this->getSuperAdmin();
+                    if($superAdmin){
+                        $newUser = new User();
+                        $newUser->setUserPass($this->getRequestParam()[FORMAT_REGISTER::USER_PASS]);
+                        $newUser->setUserName($this->getRequestParam()[FORMAT_REGISTER::USER_NAME]);
+                        $newUser->setFullName($this->getRequestParam()[FORMAT_REGISTER::FULL_NAME]);
+                        $newUser->setUpdatedBy($superAdmin);
+                        $newUser->setCreatedBy($superAdmin);
+                        $newPriv = new Privilege();
+                        $newPriv->setId(2);
+                        // Get Privilege
+                        $privilege = $this->ServiceManager->getPrivilege($newPriv);
+                        if($privilege){
+                            $newUser->setPrivilege($privilege);
+                            $addedUser = $this->ServiceManager->addUser($newUser);
+                            if ($addedUser) {
+                                $this->Message[ResponsesType::RESPONSE] = $addedUser->getArray();
+                            } else {
+                                $this->Message[ResponsesType::ERROR] = "Failed to add new User";
+                            }
+                        }else{
+                            $this->Message[ResponsesType::ERROR] = "Failed to find privilegs";
+                        }
+                    }else{
+                        $this->Message[ResponsesType::ERROR] = "There is no super admin to add new user";
+                    }
+                }else{
+                    $this->Message[ResponsesType::ERROR] = "Invalid Registration format";
                 }
             }
         }
