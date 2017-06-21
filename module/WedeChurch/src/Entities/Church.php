@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Church extends BaseTable
 {
     /**
-     * @ORM\Idd
+     * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
