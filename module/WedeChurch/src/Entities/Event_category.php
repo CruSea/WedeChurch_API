@@ -22,7 +22,7 @@ class Event_category extends BaseTable
      */
     protected $id;
     /**
-     * @ORM\Column(name="name", type="string", unique=false, nullable=false)
+     * @ORM\Column(name="name", type="string", unique=true, nullable=false)
      */
     protected $name;
 
