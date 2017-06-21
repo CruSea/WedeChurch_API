@@ -51,6 +51,8 @@ class FORMAT_REGISTER extends BasicEnum {
     const USER_NAME = 'user_name';
     const USER_PASS = 'user_pass';
     const FULL_NAME = 'full_name';
+    const Email     = 'email';
+    const PHONE     = 'phone';
 }
 class APIProcess1
 {
@@ -160,11 +162,14 @@ class APIProcess1
                         $newUser->setUserPass($this->getRequestParam()[FORMAT_REGISTER::USER_PASS]);
                         $newUser->setUserName($this->getRequestParam()[FORMAT_REGISTER::USER_NAME]);
                         $newUser->setFullName($this->getRequestParam()[FORMAT_REGISTER::FULL_NAME]);
+                        $newUser->setEmail($this->getRequestParam()[FORMAT_REGISTER::Email]);
+                        $newUser->setPhone($this->getRequestParam()[FORMAT_REGISTER::PHONE]);
                         $newUser->setUpdatedBy($superAdmin);
                         $newUser->setCreatedBy($superAdmin);
                         $newPriv = new Privilege();
-                        $newPriv->setId(2);
-                        // Get Privilege
+                      //  print_r($newUser);
+                        $newPriv->setId(3);
+//                         Get Privilege
                         $privilege = $this->ServiceManager->getPrivilege($newPriv);
                         if($privilege){
                             $newUser->setPrivilege($privilege);
