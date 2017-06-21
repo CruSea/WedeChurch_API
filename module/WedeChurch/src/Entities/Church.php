@@ -58,10 +58,14 @@ class Church extends BaseTable
      */
     protected $WebUrl;
     /**
-     * @ORM\Column(name="denomination_id", type="string", unique=false, nullable=false)
+     *
+     * @ORM\ManyToOne(targetEntity="denomination")
+     * @ORM\JoinColumn(name="denomination_id", referencedColumnName="id")
+     * @var Denomination $denomination_id
      */
     protected $denomination_id;
     /**
+     *
      * @ORM\Column(name="banner", type="string", unique=false, nullable=false)
      */
     protected $banner;
@@ -74,8 +78,12 @@ class Church extends BaseTable
      */
     protected $logo;
     /**
-     * @ORM\Column(name="parent_church_id", type="string", unique=false, nullable=false)
+     *
+     * @ORM\ManyToOne(targetEntity="church")
+     * @ORM\JoinColumn(name="church_id", referencedColumnName="id")
+     * @var Church $parent_church_id
      */
+
     protected $parent_church_id;
 
     /**
