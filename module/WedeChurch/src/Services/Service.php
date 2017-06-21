@@ -10,6 +10,9 @@ namespace WedeChurch\Services;
 
 
 use Doctrine\ORM\EntityManager;
+use WedeChurch\Entities\Church;
+use WedeChurch\Entities\Event;
+use WedeChurch\Entities\Event_category;
 use WedeChurch\Entities\Privilege;
 use WedeChurch\Entities\User;
 
@@ -176,6 +179,210 @@ class Service implements ServicesMethods
             }
         }
         return $foundPrivileges;
+    }
+
+    public function addChurch(Church $church)
+    {
+        $church->setId(null);
+        $church->setIsActive(1);
+        $church->setIsDeleted(0);
+        $church->setCreatedDate(new \DateTime('now'));
+        $church->setUpdatedDate(new \DateTime('now'));
+        $this->EntityManager->persist($church);
+        $this->EntityManager->flush();
+        if($church->getId()){
+            return $church;
+        }else{
+            return null;
+        }
+    }
+
+    public function getChurch(Church $church)
+    {
+        if($church->getId()){
+            $foundChurch = $this->EntityManager->getRepository(Church::class)->find($church->getId());
+            return $foundChurch;
+        }else{
+            return null;
+        }
+    }
+
+    public function getAllChurch()
+    {
+        $foundChurches = [];
+        $allChurches = $this->EntityManager->getRepository(Church::class)->findAll();
+        foreach ($allChurches as $church){
+            $foundChurches[] = $church->getArray();
+        }
+        return $foundChurches;
+    }
+
+    public function updateChurch(Church $church)
+    {
+        if($church->getId()){
+            $this->EntityManager->persist($church);
+            $this->EntityManager->flush();
+            if($church->getId()){
+                return $church;
+            }else{
+                return null;
+            }
+        }
+    }
+
+    public function removeChurch(Church $church)
+    {
+        if($church){
+            /**
+             * @var church $foundChurch
+             */
+            $foundChurch = $this->getChurch($church);
+            if($foundChurch){
+                $this->EntityManager->remove($foundChurch);
+                $this->EntityManager->flush();
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public function addEvent(Event $event)
+    {
+        $event->setId(null);
+        $event->setIsActive(1);
+        $event->setIsDeleted(0);
+        $event->setCreatedDate(new \DateTime('now'));
+        $event->setUpdatedDate(new \DateTime('now'));
+        $this->EntityManager->persist($event);
+        $this->EntityManager->flush();
+        if($event->getId()){
+            return $event;
+        }else{
+            return null;
+        }
+    }
+
+    public function getEvent(Event $event)
+    {
+        if($event->getId()){
+            $foundEvent = $this->EntityManager->getRepository(Event::class)->find($event->getId());
+            return $foundEvent;
+        }else{
+            return null;
+        }
+    }
+
+    public function getAllEvent()
+    {
+        $foundEvents = [];
+        $allPrivileges = $this->EntityManager->getRepository(Event::class)->findAll();
+        foreach ($allPrivileges as $event){
+
+            $foundEvents[] = $event->getArray();
+        }
+        return $foundEvents;
+    }
+
+    public function updateEvent(Event $event)
+    {
+        if($event->getId()) {
+            $this->EntityManager->persist($event);
+            $this->EntityManager->flush();
+            if ($event->getId()) {
+                return $event;
+            } else {
+                return null;
+            }
+        }
+    }
+
+    public function removeEvent(Event $event)
+    {
+        if($event){
+            /**
+             * @var Event $foundEvent
+             */
+            $foundEvent = $this->getEvent($event);
+            if($foundEvent){
+                $this->EntityManager->remove($foundEvent);
+                $this->EntityManager->flush();
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public function addEvent_Category(Event_category $event_category)
+    {
+        $event_category->setId(null);
+        $event_category->setIsActive(1);
+        $event_category->setIsDeleted(0);
+        $event_category->setCreatedDate(new \DateTime('now'));
+        $event_category->setUpdatedDate(new \DateTime('now'));
+        $this->EntityManager->persist($event_category);
+        $this->EntityManager->flush();
+        if($event_category->getId()){
+            return $event_category;
+        }else{
+            return null;
+        }
+    }
+
+    public function getEvent_Category(Event_category $event_category)
+    {
+        if($event_category->getId()){
+            $foundEvent_category = $this->EntityManager->getRepository(Event_category::class)->find($event_category->getId());
+            return  $foundEvent_category;
+        }else{
+            return null;
+        }
+    }
+
+    public function getAllEvent_Category()
+    {
+        $foundEvent_category = [];
+        $allEvent_category = $this->EntityManager->getRepository(Event_category::class)->findAll();
+        foreach ($allEvent_category as $event_category){
+
+            $foundEvent_category[] = $event_category->getArray();
+        }
+        return  $foundEvent_category;
+    }
+
+    public function updateEvent_Category(Event_category $event_category)
+    {
+        if($event_category->getId()){
+            $this->EntityManager->persist($event_category);
+            $this->EntityManager->flush();
+            if($event_category->getId()){
+                return $event_category;
+            }else{
+                return null;
+            }
+        }
+    }
+
+    public function removeEvent_Category(Event_category $event_category)
+    {
+        if($event_category){
+            /**
+             * @var Event_category $foundEvent_category
+             */
+            $foundEvent_category = $this->getEvent_Category($event_category);
+            if( $foundEvent_category){
+                $this->EntityManager->remove( $foundEvent_category);
+                $this->EntityManager->flush();
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
+
     }
 
 
