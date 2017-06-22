@@ -16,8 +16,9 @@ class Church extends BaseTable
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
     /**
@@ -61,7 +62,7 @@ class Church extends BaseTable
      *
      * @ORM\ManyToOne(targetEntity="denomination")
      * @ORM\JoinColumn(name="denomination_id", referencedColumnName="id")
-     * @var Denomination $denomination_id
+     * @var Denomination $id
      */
     protected $denomination_id;
     /**
@@ -81,7 +82,7 @@ class Church extends BaseTable
      *
      * @ORM\ManyToOne(targetEntity="church")
      * @ORM\JoinColumn(name="church_id", referencedColumnName="id")
-     * @var Church $parent_church_id
+     * @var Church $church_id
      */
 
     protected $parent_church_id;
@@ -353,7 +354,7 @@ class Church extends BaseTable
             'longitude'=>$this->getLongitude(),
             'Phone'=>$this->getPhone(),
             'banner'=>$this->getBanner(),
-            'WebUrl'=>$this->getLongitude(),
+            'WebUrl'=>$this->getWebUrl(),
             'denomination_id'=>$this->getDenominationId(),
             'description'=>$this->getDescription(),
             'logo'=>$this->getLogo(),
@@ -361,9 +362,9 @@ class Church extends BaseTable
             'state' => $this->getState(),
             'is_deleted'=>$this->getIsDeleted(),
             'is_active'=>$this->getIsActive(),
-            'updated_by'=>$this->getUpdatedBy()->getFullName(),
+            'updated_by'=>$this->getUpdatedBy(),
             'updated_date'=>$this->getUpdatedDate(),
-            'created_by'=>$this->getCreatedBy()->getFullName(),
+            'created_by'=>$this->getCreatedBy(),
             'created_date'=>$this->getCreatedDate(),
         );
     }
