@@ -37,6 +37,10 @@ class User extends BaseTable
      */
     protected $email;
     /**
+     * @ORM\Column(name="sex", type="string", unique=false, nullable=true)
+     */
+    protected $sex;
+    /**
      * @ORM\Column(name="user_phone", type="string", unique=true, nullable=true)
      */
     protected $phone;
@@ -160,6 +164,23 @@ class User extends BaseTable
         $this->privilege = $privilege;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getSex()
+    {
+        return $this->sex;
+    }
+
+    /**
+     * @param mixed $sex
+     */
+    public function setSex($sex)
+    {
+        $this->sex = $sex;
+    }
+
+
 
     public function getArray(){
         return array(
@@ -168,6 +189,7 @@ class User extends BaseTable
             'full_name'=>$this->getFullName(),
             'email'=>$this->getEmail(),
             'phone'=>$this->getPhone(),
+            'sex' => $this ->getSex(),
             'privilege'=>$this->getPrivilege()->getArray(),
             'is_deleted'=>$this->getIsDeleted(),
             'is_active'=>$this->getIsActive(),
