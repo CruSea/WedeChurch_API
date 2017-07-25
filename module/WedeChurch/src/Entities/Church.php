@@ -18,7 +18,6 @@ class Church extends BaseTable
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
     /**
@@ -31,31 +30,31 @@ class Church extends BaseTable
      */
     protected $country;
     /**
-     * @ORM\Column(name="cities", type="string", unique=false, nullable=false)
+     * @ORM\Column(name="cities", type="string", unique=false, nullable=true)
      */
     protected $cities;
     /**
-     * @ORM\Column(name="state", type="string", unique=false, nullable=false)
+     * @ORM\Column(name="state", type="string", unique=false, nullable=true)
      */
     protected $state;
     /**
-     * @ORM\Column(name="location", type="string", unique=false, nullable=false)
+     * @ORM\Column(name="location", type="string", unique=false, nullable=true)
      */
     protected $location;
     /**
-     * @ORM\Column(name="latitude", type="string", unique=false, nullable=false)
+     * @ORM\Column(name="latitude", type="string", unique=false, nullable=true)
      */
     protected $latitude;
     /**
-     * @ORM\Column(name="longitude", type="string", unique=false, nullable=false)
+     * @ORM\Column(name="longitude", type="string", unique=false, nullable=true)
      */
     protected $longitude;
     /**
-     * @ORM\Column(name="phone", type="string", unique=false, nullable=false)
+     * @ORM\Column(name="phone", type="string", unique=false, nullable=true)
      */
     protected $phone;
     /**
-     * @ORM\Column(name="WebUrl", type="string", unique=false, nullable=false)
+     * @ORM\Column(name="WebUrl", type="string", unique=false, nullable=true)
      */
     protected $WebUrl;
     /**
@@ -67,15 +66,15 @@ class Church extends BaseTable
     protected $denomination_id;
     /**
      *
-     * @ORM\Column(name="banner", type="string", unique=false, nullable=false)
+     * @ORM\Column(name="banner", type="string", unique=false, nullable=true)
      */
     protected $banner;
     /**
-     * @ORM\Column(name="description", type="string", unique=false, nullable=false)
+     * @ORM\Column(name="description", type="string", unique=false, nullable=true)
      */
     protected $description;
     /**
-     * @ORM\Column(name="logo", type="string", unique=false, nullable=false)
+     * @ORM\Column(name="logo", type="string", unique=false, nullable=true)
      */
     protected $logo;
     /**
@@ -368,7 +367,6 @@ class Church extends BaseTable
             'created_date'=>$this->getCreatedDate(),
         );
     }
-
 
 
 }

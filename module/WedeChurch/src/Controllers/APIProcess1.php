@@ -11,6 +11,9 @@ namespace WedeChurch\Controllers;
 use WedeChurch\Entities\Privilege;
 use WedeChurch\Entities\User;
 use WedeChurch\Services\Service;
+use WedeChurch\Entities\Church;
+use WedeChurch\Entities\Event;
+use WedeChurch\Entities\Event_category;
 
 class Responses {
     const Invalid_Request_Format = 'Invalid Request Format';
@@ -43,6 +46,9 @@ class RequestFormat extends BasicEnum {
 abstract class AvailableServices extends BasicEnum {
     const AUTHENTICATE = 'log_in';
     const REGISTER = 'register';
+    const CHURCH_REGISTER = 'church_register';
+    const CHURCH_GET = 'church_get';
+    const Event_Get  =  'event_get';
 }
 class FORMAT_ByItemID extends BasicEnum {
     const ITEM_ID = 'item_id';
@@ -53,6 +59,37 @@ class FORMAT_REGISTER extends BasicEnum {
     const FULL_NAME = 'full_name';
     const Email     = 'email';
     const PHONE     = 'phone';
+    const SEX       = 'sex';
+}
+
+class FORMAT_GET_CHURCH extends BasicEnum {
+    const USER_NAME = 'user_name';
+    const USER_PASS = 'user_pass';
+    const ID       = 'id';
+}
+class FORMAT_GET_EVENT extends BasicEnum {
+    const USER_NAME = 'user_name';
+    const USER_PASS = 'user_pass';
+    const ID       = 'id';
+}
+
+class FORMAT_CHURCH_REGISTER extends BasicEnum {
+    const CHURCH_NAME = 'church_name';
+    const Country   = 'country';
+    CONST Cities    = 'cities';
+    const PHONE     = 'phone';
+    const Location  = 'location';
+    const Longitude = 'longitude';
+    const Latitude  = 'latitude';
+    const WebUrl  ='weburl';
+    const Denomination_id = 'denomination_id';
+    const Banner  ='banner';
+    const Description = 'description';
+    const Logo   = 'logo';
+    const Parent_church_id = 'parent_church_id';
+    const State   = 'state';
+
+
 }
 class APIProcess1
 {
@@ -108,11 +145,13 @@ class APIProcess1
     }
 
     private function getMainUser(){
+
         $newUser = new User();
         $newUser->setUserPass($this->Request[RequestFormat::USER_PASS]);
         $newUser->setUserName($this->Request[RequestFormat::USER_NAME]);
         $newUser->setEmail($this->Request[RequestFormat::USER_NAME]);
         $foundUser = $this->ServiceManager->checkUser($newUser);
+
         if($foundUser){
             return $foundUser;
         }else{
@@ -157,21 +196,22 @@ class APIProcess1
                 /** Sign up new user */
                 if (FORMAT_REGISTER::isValidParam($this->getRequestParam())) {
                     $superAdmin = $this->getSuperAdmin();
-                    if($superAdmin){
+                    if ($superAdmin) {
                         $newUser = new User();
                         $newUser->setUserPass($this->getRequestParam()[FORMAT_REGISTER::USER_PASS]);
                         $newUser->setUserName($this->getRequestParam()[FORMAT_REGISTER::USER_NAME]);
                         $newUser->setFullName($this->getRequestParam()[FORMAT_REGISTER::FULL_NAME]);
                         $newUser->setEmail($this->getRequestParam()[FORMAT_REGISTER::Email]);
                         $newUser->setPhone($this->getRequestParam()[FORMAT_REGISTER::PHONE]);
+                        $newUser->setSex($this->getRequestParam()[FORMAT_REGISTER::SEX]);
                         $newUser->setUpdatedBy($superAdmin);
                         $newUser->setCreatedBy($superAdmin);
+                        var_dump($newUser);
                         $newPriv = new Privilege();
-                      //  print_r($newUser);
-                        $newPriv->setId(3);
+                        $newPriv->setId(2);
 //                         Get Privilege
                         $privilege = $this->ServiceManager->getPrivilege($newPriv);
-                        if($privilege){
+                        if ($privilege) {
                             $newUser->setPrivilege($privilege);
                             $addedUser = $this->ServiceManager->addUser($newUser);
                             if ($addedUser) {
@@ -179,18 +219,91 @@ class APIProcess1
                             } else {
                                 $this->Message[ResponsesType::ERROR] = "Failed to add new User";
                             }
-                        }else{
+                        } else {
                             $this->Message[ResponsesType::ERROR] = "Failed to find privilegs";
                         }
-                    }else{
+                    } else {
                         $this->Message[ResponsesType::ERROR] = "There is no super admin to add new user";
                     }
-                }else{
+
+                } else {
                     $this->Message[ResponsesType::ERROR] = "Invalid Registration format";
                 }
+
+            } elseif ($this->getRequestedService() == AvailableServices::CHURCH_GET) {
+                /** Sign up new user */
+                if (FORMAT_GET_CHURCH::isValidParam($this->getRequestParam())) {
+                      if ($this->getRequestParam()[FORMAT_GET_CHURCH::ID]){
+                          $newChurch = new Church();
+                          $newChurch->setId($this->getRequestParam()[FORMAT_GET_CHURCH::ID]);
+                          $foundChurch = $this->ServiceManager->getChurch($newChurch);
+                          $this->Message[ResponsesType::RESPONSE] = $foundChurch->getArray();
+                      }elseif($this->getRequestParam()[FORMAT_GET_CHURCH::ID] == null)
+                          $foundChurch = $this->ServiceManager->getAllChurch();
+                          $this->Message[ResponsesType::RESPONSE] = $foundChurch;
+
+                    }
+                }elseif ($this->getRequestedService() == AvailableServices::Event_Get) {
+                /** Sign up new user */
+                if (FORMAT_GET_EVENT::isValidParam($this->getRequestParam())) {
+                    if ($this->getRequestParam()[FORMAT_GET_EVENT::ID]){
+                      $newEvent = new Event();
+                      $newEvent->setId($this->getRequestParam()[FORMAT_GET_EVENT::ID]);
+                      $foundEvent = $this->ServiceManager->getEvent($newEvent);
+                      $this->Message[ResponsesType::RESPONSE] =  $foundEvent->getArray();
+                    }elseif($this->getRequestParam()[FORMAT_GET_EVENT::ID] == null)
+                        $foundEvent = $this->ServiceManager->getAllEvent();
+                        $this->Message[ResponsesType::RESPONSE] =  $foundEvent;
+                }
             }
+                elseif ($this->getRequestedService() == AvailableServices::CHURCH_REGISTER) {
+                    /** add  new church */
+
+                    if (FORMAT_CHURCH_REGISTER::isValidParam($this->getRequestParam())) {
+
+                        $user = $this->getMainUser();
+
+                        if ($user) {
+
+                            $newChurch = new Church();
+                            $newChurch->setName($this->getRequestParam()[FORMAT_CHURCH_REGISTER::CHURCH_NAME]);
+                            $newChurch->setCountry($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Country]);
+                            $newChurch->setCities($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Cities]);
+                            $newChurch->setState($this->getRequestParam()[FORMAT_CHURCH_REGISTER::State]);
+                            $newChurch->setPhone($this->getRequestParam()[FORMAT_CHURCH_REGISTER::PHONE]);
+                            $newChurch->setLocation($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Location]);
+                            $newChurch->setLatitude($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Latitude]);
+                            $newChurch->setLongitude($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Longitude]);
+                            $newChurch->setWebUrl($this->getRequestParam()[FORMAT_CHURCH_REGISTER::WebUrl]);
+                            $newChurch->setDescription($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Description]);
+                            $newChurch->setLogo($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Logo]);
+                            $newChurch->setDenominationId($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Denomination_id]);
+                            $newChurch->setBanner($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Banner]);
+                            $newChurch->setParentChurchId($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Parent_church_id]);
+                            $newChurch->setUpdatedBy($user->getId());
+                            $newChurch->setCreatedBy($user->getId());
+
+                            $addedChurch = $this->ServiceManager->addChurch($newChurch);
+                            // print_r($newChurch);
+                            if ($addedChurch) {
+                                $this->Message[ResponsesType::RESPONSE] = $addedChurch->getArray();
+                            } else {
+                                $this->Message[ResponsesType::ERROR] = "Failed to add new church";
+                            }
+                        }
+                    } else {
+                        $this->Message[ResponsesType::ERROR] = "Invalid user to add church";
+                    }
+                }
+            } else {
+                $this->Message[ResponsesType::ERROR] = "Invalid church Registration format";
+
+            }
+
+
         }
-    }
+
+
     public function Process(){
         if($this->isValidRequestFormat()){
             $this->ProcessRequest();

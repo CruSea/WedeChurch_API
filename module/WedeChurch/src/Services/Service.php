@@ -10,6 +10,7 @@ namespace WedeChurch\Services;
 
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityNotFoundException;
 use WedeChurch\Entities\Church;
 use WedeChurch\Entities\Event;
 use WedeChurch\Entities\Event_category;
@@ -37,6 +38,7 @@ class Service implements ServicesMethods
         $user->setId(null);
         $user->setIsActive(1);
         $user->setIsDeleted(0);
+       // print_r($user);
         $user->setCreatedDate(new \DateTime('now'));
         $user->setUpdatedDate(new \DateTime('now'));
         $user->setUserPass(sha1($user->getUserPass()));
@@ -76,10 +78,12 @@ class Service implements ServicesMethods
     public function checkUser(User $user)
     {
         $allUsers = $this->EntityManager->getRepository(User::class)->findAll();
+
         foreach ($allUsers as $_user){
             /**
              * @var User $_user
              */
+
             if(($_user->getUserPass() == sha1($user->getUserPass())) &&
                 (($_user->getUserName() == $user->getUserName()) || ($_user->getEmail() == $user->getEmail()))){
                 return $_user;
@@ -183,18 +187,26 @@ class Service implements ServicesMethods
 
     public function addChurch(Church $church)
     {
+
         $church->setId(null);
         $church->setIsActive(1);
         $church->setIsDeleted(0);
         $church->setCreatedDate(new \DateTime('now'));
         $church->setUpdatedDate(new \DateTime('now'));
         $this->EntityManager->persist($church);
-        $this->EntityManager->flush();
+        try{
+            if (! $this->EntityManager->isPersisted($church)) {
+                throw new InvalidArgumentException('Entity is not persisted');
+            }
+        }catch (InvalidArgumentException $e){
+            print_r($e);
+        }
+       // $this->EntityManager->flush();
         if($church->getId()){
             return $church;
         }else{
             return null;
-        }
+              }
     }
 
     public function getChurch(Church $church)
@@ -266,19 +278,33 @@ class Service implements ServicesMethods
 
     public function getEvent(Event $event)
     {
-        if($event->getId()){
-            $foundEvent = $this->EntityManager->getRepository(Event::class)->find($event->getId());
-            return $foundEvent;
-        }else{
-            return null;
+
+//        if($event->getId()){
+//            $foundEvent = $this->EntityManager->getRepository(Event::class)->find($event->getId());
+//            return $foundEvent;
+//        }else{
+//            return null;
+//        }
+
+
+        $AllfoundEvent = $this->EntityManager->getRepository(Event::class)->findAll();
+        foreach ($AllfoundEvent as $_event){
+            /**
+             * @var Event $_event
+             */
+            if($event->getId() == $_event->getId()){
+                return $_event;
+            }
         }
+        return null;
+
     }
 
     public function getAllEvent()
     {
         $foundEvents = [];
-        $allPrivileges = $this->EntityManager->getRepository(Event::class)->findAll();
-        foreach ($allPrivileges as $event){
+        $AllfoundEvent = $this->EntityManager->getRepository(Event::class)->findAll();
+        foreach ($AllfoundEvent as $event){
 
             $foundEvents[] = $event->getArray();
         }
@@ -387,3 +413,5 @@ class Service implements ServicesMethods
 
 
 }
+
+
