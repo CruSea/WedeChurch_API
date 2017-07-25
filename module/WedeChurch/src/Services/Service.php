@@ -279,20 +279,13 @@ class Service implements ServicesMethods
     public function getEvent(Event $event)
     {
 
-//        if($event->getId()){
-//            $foundEvent = $this->EntityManager->getRepository(Event::class)->find($event->getId());
-//            return $foundEvent;
-//        }else{
-//            return null;
-//        }
-
-
         $AllfoundEvent = $this->EntityManager->getRepository(Event::class)->findAll();
         foreach ($AllfoundEvent as $_event){
             /**
              * @var Event $_event
              */
             if($event->getId() == $_event->getId()){
+                var_dump($_event);
                 return $_event;
             }
         }
