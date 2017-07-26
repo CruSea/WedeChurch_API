@@ -361,9 +361,9 @@ class Church extends BaseTable
             'state' => $this->getState(),
             'is_deleted'=>$this->getIsDeleted(),
             'is_active'=>$this->getIsActive(),
-            'updated_by'=>$this->getUpdatedBy(),
+            'updated_by'=>$this->getUpdatedBy()->getFullName(),
             'updated_date'=>$this->getUpdatedDate(),
-            'created_by'=>$this->getCreatedBy(),
+            'created_by'=>$this->getCreatedBy()->getFullName(),
             'created_date'=>$this->getCreatedDate(),
         );
     }

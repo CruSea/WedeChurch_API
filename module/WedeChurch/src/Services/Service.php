@@ -186,7 +186,6 @@ class Service implements ServicesMethods
 
     public function addChurch(Church $church)
     {
-
         $church->setId(null);
         $church->setIsActive(1);
         $church->setIsDeleted(0);
