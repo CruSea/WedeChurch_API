@@ -81,7 +81,7 @@ class Church extends BaseTable
      *
      * @ORM\ManyToOne(targetEntity="church")
      * @ORM\JoinColumn(name="parent_church_id", referencedColumnName="id")
-     * @var Church $church_id
+     * @var Church $id
      */
 
     protected $parent_church_id;
