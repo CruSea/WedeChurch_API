@@ -40,15 +40,15 @@ class ResponsesType {
 class RequestFormat extends BasicEnum {
     const USER_NAME = 'user_name';
     const USER_PASS = 'user_pass';
-    const SERVICE = 'service';
-    const PARAM = 'param';
+    const SERVICE   = 'service';
+    const PARAM     = 'param';
 }
 abstract class AvailableServices extends BasicEnum {
-    const AUTHENTICATE = 'log_in';
-    const REGISTER = 'register';
-    const CHURCH_REGISTER = 'church_register';
-    const CHURCH_GET = 'church_get';
-    const Event_Get  =  'event_get';
+    const AUTHENTICATE    ='log_in';
+    const REGISTER        ='register';
+    const CHURCH_REGISTER ='church_register';
+    const CHURCH_GET      ='church_get';
+    const Event_Get       ='event_get';
 }
 class FORMAT_ByItemID extends BasicEnum {
     const ITEM_ID = 'item_id';
@@ -65,29 +65,29 @@ class FORMAT_REGISTER extends BasicEnum {
 class FORMAT_GET_CHURCH extends BasicEnum {
     const USER_NAME = 'user_name';
     const USER_PASS = 'user_pass';
-    const ID       = 'id';
+    const ID        = 'id';
 }
 class FORMAT_GET_EVENT extends BasicEnum {
     const USER_NAME = 'user_name';
     const USER_PASS = 'user_pass';
-    const ID       = 'id';
+    const ID        = 'id';
 }
 
 class FORMAT_CHURCH_REGISTER extends BasicEnum {
     const CHURCH_NAME = 'church_name';
-    const Country   = 'country';
-    CONST Cities    = 'cities';
-    const PHONE     = 'phone';
-    const Location  = 'location';
-    const Longitude = 'longitude';
-    const Latitude  = 'latitude';
-    const WebUrl  ='weburl';
-    const Denomination_id = 'denomination_id';
-    const Banner  ='banner';
+    const Country     = 'country';
+    CONST Cities      = 'cities';
+    const PHONE       = 'phone';
+    const Location    = 'location';
+    const Longitude   = 'longitude';
+    const Latitude    = 'latitude';
+    const WebUrl      = 'weburl';
+    const Denomination_id ='denomination_id';
+    const Banner      = 'banner';
     const Description = 'description';
-    const Logo   = 'logo';
+    const Logo        = 'logo';
     const Parent_church_id = 'parent_church_id';
-    const State   = 'state';
+    const State       = 'state';
 
 
 }
@@ -237,7 +237,7 @@ class APIProcess1
                           $newChurch = new Church();
                           $newChurch->setId($this->getRequestParam()[FORMAT_GET_CHURCH::ID]);
                           $foundChurch = $this->ServiceManager->getChurch($newChurch);
-                          $this->Message[ResponsesType::RESPONSE] = $foundChurch->getArray();
+                          $this->Message[ResponsesType::RESPONSE] = $foundChurch;
                       }elseif($this->getRequestParam()[FORMAT_GET_CHURCH::ID] == null)
                           $foundChurch = $this->ServiceManager->getAllChurch();
                           $this->Message[ResponsesType::RESPONSE] = $foundChurch;
@@ -250,7 +250,7 @@ class APIProcess1
                       $newEvent = new Event();
                       $newEvent->setId($this->getRequestParam()[FORMAT_GET_EVENT::ID]);
                       $foundEvent = $this->ServiceManager->getEvent($newEvent);
-                      $this->Message[ResponsesType::RESPONSE] =  $foundEvent->getArray();
+                      $this->Message[ResponsesType::RESPONSE] = $foundEvent;
                     }elseif($this->getRequestParam()[FORMAT_GET_EVENT::ID] == null)
                         $foundEvent = $this->ServiceManager->getAllEvent();
                         $this->Message[ResponsesType::RESPONSE] =  $foundEvent;
@@ -284,7 +284,6 @@ class APIProcess1
                             $newChurch->setCreatedBy($user->getId());
 
                             $addedChurch = $this->ServiceManager->addChurch($newChurch);
-                            // print_r($newChurch);
                             if ($addedChurch) {
                                 $this->Message[ResponsesType::RESPONSE] = $addedChurch->getArray();
                             } else {

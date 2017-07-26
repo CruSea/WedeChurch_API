@@ -38,7 +38,6 @@ class Service implements ServicesMethods
         $user->setId(null);
         $user->setIsActive(1);
         $user->setIsDeleted(0);
-       // print_r($user);
         $user->setCreatedDate(new \DateTime('now'));
         $user->setUpdatedDate(new \DateTime('now'));
         $user->setUserPass(sha1($user->getUserPass()));
@@ -194,14 +193,7 @@ class Service implements ServicesMethods
         $church->setCreatedDate(new \DateTime('now'));
         $church->setUpdatedDate(new \DateTime('now'));
         $this->EntityManager->persist($church);
-        try{
-            if (! $this->EntityManager->isPersisted($church)) {
-                throw new InvalidArgumentException('Entity is not persisted');
-            }
-        }catch (InvalidArgumentException $e){
-            print_r($e);
-        }
-       // $this->EntityManager->flush();
+        $this->EntityManager->flush();
         if($church->getId()){
             return $church;
         }else{
@@ -211,12 +203,17 @@ class Service implements ServicesMethods
 
     public function getChurch(Church $church)
     {
-        if($church->getId()){
-            $foundChurch = $this->EntityManager->getRepository(Church::class)->find($church->getId());
-            return $foundChurch;
-        }else{
-            return null;
+        $AllfoundChurch = $this->EntityManager->getRepository(Church::class)->findAll();
+        foreach ($AllfoundChurch as $_church){
+            /**
+             * @var Church $_church
+             */
+            if($church->getId() == $_church->getId()){
+                $foundChurch  = $_church->getArray();
+                return $foundChurch;
+            }
         }
+        return null;
     }
 
     public function getAllChurch()
@@ -285,8 +282,8 @@ class Service implements ServicesMethods
              * @var Event $_event
              */
             if($event->getId() == $_event->getId()){
-                var_dump($_event);
-                return $_event;
+                $foundEvent  = $_event->getArray();
+                return $foundEvent;
             }
         }
         return null;

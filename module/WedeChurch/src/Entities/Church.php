@@ -80,7 +80,7 @@ class Church extends BaseTable
     /**
      *
      * @ORM\ManyToOne(targetEntity="church")
-     * @ORM\JoinColumn(name="church_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="parent_church_id", referencedColumnName="id")
      * @var Church $church_id
      */
 
@@ -357,7 +357,7 @@ class Church extends BaseTable
             'denomination_id'=>$this->getDenominationId(),
             'description'=>$this->getDescription(),
             'logo'=>$this->getLogo(),
-            'parent_church_id'=>$this->getParentChurchId(),
+            //'parent_church_id'=>$this->getParentChurchId(),
             'state' => $this->getState(),
             'is_deleted'=>$this->getIsDeleted(),
             'is_active'=>$this->getIsActive(),
