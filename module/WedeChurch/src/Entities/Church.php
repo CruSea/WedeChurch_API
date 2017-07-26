@@ -357,7 +357,7 @@ class Church extends BaseTable
             'denomination_id'=>$this->getDenominationId(),
             'description'=>$this->getDescription(),
             'logo'=>$this->getLogo(),
-            //'parent_church_id'=>$this->getParentChurchId(),
+            'parent_church_id'=>$this->getParentChurchId(),
             'state' => $this->getState(),
             'is_deleted'=>$this->getIsDeleted(),
             'is_active'=>$this->getIsActive(),
