@@ -14,6 +14,8 @@ use WedeChurch\Services\Service;
 use WedeChurch\Entities\Church;
 use WedeChurch\Entities\Event;
 use WedeChurch\Entities\Event_category;
+use WedeChurch\Entities\Denomination;
+
 
 class Responses {
     const Invalid_Request_Format = 'Invalid Request Format';
@@ -264,6 +266,10 @@ class APIProcess1
 
                         if ($user) {
 
+                            $deno = new Denomination();
+                            $deno ->setId($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Denomination_id]);
+
+
                             $newChurch = new Church();
                             $newChurch->setName($this->getRequestParam()[FORMAT_CHURCH_REGISTER::NAME]);
                             $newChurch->setCountry($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Country]);
@@ -276,11 +282,14 @@ class APIProcess1
                             $newChurch->setWebUrl($this->getRequestParam()[FORMAT_CHURCH_REGISTER::WebUrl]);
                             $newChurch->setDescription($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Description]);
                             $newChurch->setLogo($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Logo]);
-                            $newChurch->setDenominationId($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Denomination_id]);
+                            $newChurch->setDenomination($deno);
                             $newChurch->setBanner($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Banner]);
                             $newChurch->setParentChurchId($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Parent_church_id]);
                             $newChurch->setUpdatedBy($user);
                             $newChurch->setCreatedBy($user);
+
+
+
                             $addedChurch = $this->ServiceManager->addChurch($newChurch);
                             if ($addedChurch) {
                                 $this->Message[ResponsesType::RESPONSE] = $addedChurch->getArray();
