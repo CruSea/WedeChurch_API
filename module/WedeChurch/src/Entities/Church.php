@@ -60,10 +60,10 @@ class Church extends BaseTable
     /**
      *
      * @ORM\ManyToOne(targetEntity="denomination")
-     * @ORM\JoinColumn(name="denomination_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="denomination", referencedColumnName="id")
      * @var Denomination $id
      */
-    protected $denomination_id;
+    protected $denomination;
     /**
      *
      * @ORM\Column(name="banner", type="string", unique=false, nullable=true)
@@ -191,6 +191,22 @@ class Church extends BaseTable
     }
 
     /**
+     * @return Denomination
+     */
+    public function getDenomination()
+    {
+        return $this->denomination;
+    }
+
+    /**
+     * @param Denomination $denomination
+     */
+    public function setDenomination($denomination)
+    {
+        $this->denomination = $denomination;
+    }
+
+    /**
      * @param mixed $location
      */
     public function setLocation($location)
@@ -260,22 +276,6 @@ class Church extends BaseTable
     public function setWebUrl($WebUrl)
     {
         $this->WebUrl = $WebUrl;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDenominationId()
-    {
-        return $this->denomination_id;
-    }
-
-    /**
-     * @param mixed $denomination_id
-     */
-    public function setDenominationId($denomination_id)
-    {
-        $this->denomination_id = $denomination_id;
     }
 
     /**
@@ -354,7 +354,7 @@ class Church extends BaseTable
             'Phone'=>$this->getPhone(),
             'banner'=>$this->getBanner(),
             'WebUrl'=>$this->getWebUrl(),
-            'denomination_id'=>$this->getDenominationId(),
+            'denomination'=>$this->getDenomination()->getArray(),
             'description'=>$this->getDescription(),
             'logo'=>$this->getLogo(),
             'parent_church_id'=>$this->getParentChurchId(),
