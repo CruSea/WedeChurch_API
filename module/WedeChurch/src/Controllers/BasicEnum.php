@@ -49,6 +49,7 @@ abstract class BasicEnum
     public static function isValidParam($param, $strict = false){
         $constants = self::getConstants();
         $p_keys = array_keys($param);
+
         if($strict){
             foreach ($p_keys as $key){
                 if(!in_array($key, array_values($constants))){
@@ -56,6 +57,7 @@ abstract class BasicEnum
                 }
             }
         }else{
+
             foreach ($p_keys as $key){
                 if(!in_array(strtolower($key), array_values($constants))){
                     return false;

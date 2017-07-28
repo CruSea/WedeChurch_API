@@ -14,8 +14,8 @@
 $dbParams = array(
     'hostname' => '127.0.0.1',
     'port' => 8889,
-    'username' => 'bengeos',
-    'password' => 'passben',
+    'username' => 'root',
+    'password' => 'root',
     'database' => 'WedeChurch'
 );
 return array(
