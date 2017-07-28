@@ -34,6 +34,11 @@ class WedeChurchController extends AbstractRestfulController
     {
         return new JsonModel(array("API Controller"));
     }
+    public function get($id)
+    {
+        return new JsonModel(array("API Controller"));
+    }
+
     public function create($data)
     {
         $process = new APIProcess1($this->ServiceManager,$data);

@@ -18,9 +18,9 @@ $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__."/module/We
 // database configuration parametersgit
 $conn = array(
     'dbname' => 'WedeChurch',
-    'user' => 'bengeos',
-    'password' => 'passben',
-    'host' => 'localhost:8889',
+    'user' => 'wede_church_admin',
+    'password' => 'passadmin',
+    'host' => 'localhost',
     'driver' => 'pdo_mysql',
     'charset' => 'utf8',
     'driverOptions' => array(
