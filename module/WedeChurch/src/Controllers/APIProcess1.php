@@ -208,7 +208,6 @@ class APIProcess1
                         $newUser->setSex($this->getRequestParam()[FORMAT_REGISTER::SEX]);
                         $newUser->setUpdatedBy($superAdmin);
                         $newUser->setCreatedBy($superAdmin);
-                        var_dump($newUser);
                         $newPriv = new Privilege();
                         $newPriv->setId(2);
 //                         Get Privilege
@@ -279,14 +278,13 @@ class APIProcess1
                             $newChurch->setWebUrl($this->getRequestParam()[FORMAT_CHURCH_REGISTER::WebUrl]);
                             $newChurch->setDescription($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Description]);
                             $newChurch->setLogo($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Logo]);
-                            $newChurch->setDenominationId($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Denomination_id]);
+                            $newChurch->setDenomination($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Denomination_id]);
                             $newChurch->setBanner($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Banner]);
                             $newChurch->setParentChurchId($this->getRequestParam()[FORMAT_CHURCH_REGISTER::Parent_church_id]);
                             $newChurch->setUpdatedBy($user->getId());
                             $newChurch->setCreatedBy($user->getId());
 
                             $addedChurch = $this->ServiceManager->addChurch($newChurch);
-                            // print_r($newChurch);
                             if ($addedChurch) {
                                 $this->Message[ResponsesType::RESPONSE] = $addedChurch->getArray();
                             } else {
