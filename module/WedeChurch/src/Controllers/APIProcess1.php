@@ -54,12 +54,14 @@ class FORMAT_ByItemID extends BasicEnum {
     const ITEM_ID = 'item_id';
 }
 class FORMAT_REGISTER extends BasicEnum {
-    const USER_NAME = 'user_name';
-    const USER_PASS = 'user_pass';
-    const FULL_NAME = 'full_name';
-    const Email     = 'email';
-    const PHONE     = 'phone';
-    const SEX       = 'sex';
+    const USER_NAME  = 'user_name';
+    const USER_PASS  = 'user_pass';
+    const First_NAME = 'first_name';
+    const Last_NAME  = 'last_name';
+    const Email      = 'email';
+    const PHONE      = 'phone';
+    const SEX        = 'sex';
+    const Country    = 'country';
 }
 
 class FORMAT_GET_CHURCH extends BasicEnum {
@@ -202,14 +204,15 @@ class APIProcess1
                         $newUser = new User();
                         $newUser->setUserPass($this->getRequestParam()[FORMAT_REGISTER::USER_PASS]);
                         $newUser->setUserName($this->getRequestParam()[FORMAT_REGISTER::USER_NAME]);
-                        $newUser->setFullName($this->getRequestParam()[FORMAT_REGISTER::FULL_NAME]);
+                        $newUser->setFirstName($this->getRequestParam()[FORMAT_REGISTER::First_NAME]);
+                        $newUser->setLastName($this->getRequestParam()[FORMAT_REGISTER::Last_NAME]);
                         $newUser->setEmail($this->getRequestParam()[FORMAT_REGISTER::Email]);
                         $newUser->setPhone($this->getRequestParam()[FORMAT_REGISTER::PHONE]);
                         $newUser->setSex($this->getRequestParam()[FORMAT_REGISTER::SEX]);
                         $newUser->setUpdatedBy($superAdmin);
                         $newUser->setCreatedBy($superAdmin);
                         $newPriv = new Privilege();
-                        $newPriv->setId(2);
+                        $newPriv->setId(1);
 //                         Get Privilege
                         $privilege = $this->ServiceManager->getPrivilege($newPriv);
                         if ($privilege) {

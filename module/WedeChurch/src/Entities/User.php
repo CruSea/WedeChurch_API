@@ -29,13 +29,22 @@ class User extends BaseTable
      */
     protected $userPass;
     /**
-     * @ORM\Column(name="full_name", type="string", unique=false, nullable=false)
+     * @ORM\Column(name="first_name", type="string", unique=false, nullable=false)
      */
-    protected $fullName;
+    protected $firstName;
+    /**
+     * @ORM\Column(name="last_name", type="string", unique=false, nullable=false)
+     */
+    protected $lastName;
     /**
      * @ORM\Column(name="user_email", type="string", unique=true, nullable=true)
      */
     protected $email;
+
+    /**
+     * @ORM\Column(name="first_name", type="string", unique=false, nullable=false)
+     */
+    protected $Country;
     /**
      * @ORM\Column(name="sex", type="string", unique=false, nullable=true)
      */
@@ -99,22 +108,55 @@ class User extends BaseTable
     {
         $this->userPass = $userPass;
     }
+    /**
+     * @return mixed
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param mixed $firstName
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+    }
 
     /**
      * @return mixed
      */
-    public function getFullName()
+    public function getLastName()
     {
-        return $this->fullName;
+        return $this->lastName;
     }
 
     /**
-     * @param mixed $fullName
+     * @param mixed $lastName
      */
-    public function setFullName($fullName)
+    public function setLastName($lastName)
     {
-        $this->fullName = $fullName;
+        $this->lastName = $lastName;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCountry()
+    {
+        return $this->Country;
+    }
+
+    /**
+     * @param mixed $Country
+     */
+    public function setCountry($Country)
+    {
+        $this->Country = $Country;
+    }
+
+
 
     /**
      * @return mixed
@@ -186,16 +228,18 @@ class User extends BaseTable
         return array(
             'id'=>$this->getId(),
             'user_name'=>$this->getUserName(),
-            'full_name'=>$this->getFullName(),
+            'first_name'=>$this->getFirstName(),
+            'last_name'=>$this->getLastName(),
             'email'=>$this->getEmail(),
+            'country'=>$this->getCountry(),
             'phone'=>$this->getPhone(),
             'sex' => $this ->getSex(),
             'privilege'=>$this->getPrivilege()->getArray(),
             'is_deleted'=>$this->getIsDeleted(),
             'is_active'=>$this->getIsActive(),
-            'updated_by'=>$this->getUpdatedBy()->getFullName(),
+            'updated_by'=>$this->getUpdatedBy()->getId(),
             'updated_date'=>$this->getUpdatedDate(),
-            'created_by'=>$this->getCreatedBy()->getFullName(),
+            'created_by'=>$this->getCreatedBy()->getId(),
             'created_date'=>$this->getCreatedDate(),
         );
     }
