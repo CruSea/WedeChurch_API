@@ -206,6 +206,7 @@ class APIProcess1
                         $newUser->setUserName($this->getRequestParam()[FORMAT_REGISTER::USER_NAME]);
                         $newUser->setFirstName($this->getRequestParam()[FORMAT_REGISTER::First_NAME]);
                         $newUser->setLastName($this->getRequestParam()[FORMAT_REGISTER::Last_NAME]);
+                        $newUser->setCountry($this->getRequestParam()[FORMAT_REGISTER::Country]);
                         $newUser->setEmail($this->getRequestParam()[FORMAT_REGISTER::Email]);
                         $newUser->setPhone($this->getRequestParam()[FORMAT_REGISTER::PHONE]);
                         $newUser->setSex($this->getRequestParam()[FORMAT_REGISTER::SEX]);
