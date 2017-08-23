@@ -42,7 +42,7 @@ class User extends BaseTable
     protected $email;
 
     /**
-     * @ORM\Column(name="first_name", type="string", unique=false, nullable=false)
+     * @ORM\Column(name="country", type="string", unique=false, nullable=false)
      */
     protected $Country;
     /**
