@@ -78,7 +78,7 @@ class FORMAT_GET_EVENT extends BasicEnum {
 class FORMAT_CHURCH_REGISTER extends BasicEnum {
     const USER_NAME = 'user_name';
     const USER_PASS = 'user_pass';
-    const CHURCH_NAME = 'church_name';
+    const CHURCH_NAME ='church_name';
     const Country   = 'country';
     CONST Cities    = 'cities';
     const PHONE     = 'phone';
@@ -236,13 +236,15 @@ class APIProcess1
                 }
 
             } elseif ($this->getRequestedService() == AvailableServices::CHURCH_GET) {
-                /** Sign up new user */
+              //church get
                 if (FORMAT_GET_CHURCH::isValidParam($this->getRequestParam())) {
                       if ($this->getRequestParam()[FORMAT_GET_CHURCH::ID]){
                           $newChurch = new Church();
                           $newChurch->setId($this->getRequestParam()[FORMAT_GET_CHURCH::ID]);
                           $foundChurch = $this->ServiceManager->getChurch($newChurch);
-                          $this->Message[ResponsesType::RESPONSE] = $foundChurch->getArray();
+                          print_r($foundChurch);
+                          $this->Message[ResponsesType::RESPONSE] = $foundChurch;
+
                       }elseif($this->getRequestParam()[FORMAT_GET_CHURCH::ID] == null)
                           $foundChurch = $this->ServiceManager->getAllChurch();
                           $this->Message[ResponsesType::RESPONSE] = $foundChurch;
