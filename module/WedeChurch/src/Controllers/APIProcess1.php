@@ -213,7 +213,7 @@ class APIProcess1
                         $newUser->setUpdatedBy($superAdmin);
                         $newUser->setCreatedBy($superAdmin);
                         $newPriv = new Privilege();
-                        $newPriv->setId(1);
+                        $newPriv->setId(2);
 //                         Get Privilege
                         $privilege = $this->ServiceManager->getPrivilege($newPriv);
                         if ($privilege) {
@@ -302,7 +302,7 @@ class APIProcess1
                     }
                 }
             } else {
-                $this->Message[ResponsesType::ERROR] = "Invalid church Registration format";
+                $this->Message[ResponsesType::ERROR] = "Invalid Request format to the API";
 
             }
 
