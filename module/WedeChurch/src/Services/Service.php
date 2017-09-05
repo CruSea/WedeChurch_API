@@ -53,8 +53,8 @@ class Service implements ServicesMethods
     public function getUser(User $user)
     {
         if($user->getId()){
-            print_r($user);
             $foundUser = $this->EntityManager->getRepository(User::class)->find($user->getId());
+            print_r($user);
             return $foundUser;
         }else{
             return null;
