@@ -9,7 +9,7 @@
 namespace WedeChurch\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
-use WedeChurch\Entities\Denomination;
+use WedeChurch\Entities\Denomination as denomination;
 /**
  * @ORM\Entity
  * @ORM\Table(name="church")
