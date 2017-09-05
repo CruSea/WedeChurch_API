@@ -30,7 +30,7 @@ class Event extends BaseTable
      * One Product has Many Features.
      * @ORM\ManyToOne(targetEntity="Church")
      * @ORM\JoinColumn(name="church_id", referencedColumnName="id")
-     * @var church $church_id
+     * @var church $id
      */
     protected $church_id;
     /**
