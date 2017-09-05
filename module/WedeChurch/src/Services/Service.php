@@ -61,7 +61,7 @@ class Service implements ServicesMethods
 
                 print $exception;
             }
-
+            print_r($foundUser);
             return $foundUser;
         }else{
             return null;
