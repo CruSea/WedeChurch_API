@@ -218,6 +218,7 @@ class APIProcess1
                         $privilege = $this->ServiceManager->getPrivilege($newPriv);
                         if ($privilege) {
                             $newUser->setPrivilege($privilege);
+                            print_r($newUser);
                             $addedUser = $this->ServiceManager->addUser($newUser);
                             if ($addedUser) {
                                 $this->Message[ResponsesType::RESPONSE] = $addedUser->getArray();
