@@ -53,6 +53,7 @@ class Service implements ServicesMethods
     public function getUser(User $user)
     {
         if($user->getId()){
+            print_r($user);
             $foundUser = $this->EntityManager->getRepository(User::class)->find($user->getId());
             return $foundUser;
         }else{
@@ -77,12 +78,10 @@ class Service implements ServicesMethods
     public function checkUser(User $user)
     {
         $allUsers = $this->EntityManager->getRepository(User::class)->findAll();
-
         foreach ($allUsers as $_user){
             /**
              * @var User $_user
              */
-
             if(($_user->getUserPass() == sha1($user->getUserPass())) &&
                 (($_user->getUserName() == $user->getUserName()) || ($_user->getEmail() == $user->getEmail()))){
                 return $_user;
