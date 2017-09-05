@@ -12,6 +12,7 @@ namespace WedeChurch\Services;
 use Doctrine\Common\Annotations\AnnotationException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\ORM\ORMException;
 use WedeChurch\Entities\Church;
 use WedeChurch\Entities\Event;
 use WedeChurch\Entities\Event_category;
@@ -56,7 +57,7 @@ class Service implements ServicesMethods
         if($user->getId()){
             try {
                 $foundUser = $this->EntityManager->getRepository(User::class)->find($user->getId());
-            }catch (AnnotationException $exception){
+            }catch (ORMException $exception){
 
                 print $exception;
             }
