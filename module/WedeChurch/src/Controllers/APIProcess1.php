@@ -174,7 +174,7 @@ class APIProcess1
     }
 
     private function ProcessRequest()
-    {
+    {   print_r('heyyyy');
         if (in_array($this->getRequestedService(), array_values(AvailableServices::getConstants()))) {
             /**
              * Check for Services
