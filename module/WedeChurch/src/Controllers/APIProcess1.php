@@ -192,7 +192,6 @@ class APIProcess1
                 /** Log in user */
                 $found = $this->getMainUser();
                 if ($found) {
-                    print_r('hey from process');
                     $this->Message[ResponsesType::RESPONSE] = $found->getArray();
                 } else {
                     $this->Message[ResponsesType::ERROR] = Responses::Failed_Login;
