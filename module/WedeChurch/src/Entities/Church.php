@@ -60,7 +60,7 @@ class Church extends BaseTable
      */
     protected $WebUrl;
     /**
-     * @ORM\ManyToOne(targetEntity="denomination")
+     * @ORM\ManyToOne(targetEntity="Denomination")
      * @ORM\JoinColumn(name="denomination", referencedColumnName="id")
      * @var Denomination $denomination
      */
