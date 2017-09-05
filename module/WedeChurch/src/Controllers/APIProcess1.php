@@ -239,14 +239,16 @@ class APIProcess1
               //church get
 
                 if (FORMAT_GET_CHURCH::isValidParam($this->getRequestParam())) {
-                    print_r('heyyy');
+
                       if ($this->getRequestParam()[FORMAT_GET_CHURCH::ID]){
+                          print_r('heyyy with id');
                           $newChurch = new Church();
                           $newChurch->setId($this->getRequestParam()[FORMAT_GET_CHURCH::ID]);
                           $foundChurch = $this->ServiceManager->getChurch($newChurch);
                           $this->Message[ResponsesType::RESPONSE] = $foundChurch;
 
                       }elseif($this->getRequestParam()[FORMAT_GET_CHURCH::ID] == null)
+                          print_r('heyyy no id');
                           $foundChurch = $this->ServiceManager->getAllChurch();
                           $this->Message[ResponsesType::RESPONSE] = $foundChurch;
 
