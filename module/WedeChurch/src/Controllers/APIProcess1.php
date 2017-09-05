@@ -166,8 +166,8 @@ class APIProcess1
     private function getSuperAdmin(){
         $newUser = new User();
         $newUser->setId(1);
-        print_r($newUser);
         $foundUser = $this->ServiceManager->getUser($newUser);
+        print_r($newUser);
         if($foundUser){
             return $foundUser;
         }else{
