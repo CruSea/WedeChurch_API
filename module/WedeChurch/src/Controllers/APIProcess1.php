@@ -166,6 +166,7 @@ class APIProcess1
     private function getSuperAdmin(){
         $newUser = new User();
         $newUser->setId(1);
+        print_r($newUser);
         $foundUser = $this->ServiceManager->getUser($newUser);
         if($foundUser){
             return $foundUser;
@@ -176,7 +177,6 @@ class APIProcess1
 
     private function ProcessRequest()
     {
-        print_r('heyyyy on entry');
         if (in_array($this->getRequestedService(), array_values(AvailableServices::getConstants()))) {
             /**
              * Check for Services
