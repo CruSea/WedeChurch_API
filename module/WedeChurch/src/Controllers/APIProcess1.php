@@ -154,7 +154,6 @@ class APIProcess1
         $newUser->setUserPass($this->Request[RequestFormat::USER_PASS]);
         $newUser->setUserName($this->Request[RequestFormat::USER_NAME]);
         $newUser->setEmail($this->Request[RequestFormat::USER_NAME]);
-        print_r($newUser);
         $foundUser = $this->ServiceManager->checkUser($newUser);
 
         if($foundUser){
@@ -167,7 +166,6 @@ class APIProcess1
         $newUser = new User();
         $newUser->setId(1);
         $foundUser = $this->ServiceManager->getUser($newUser);
-        print_r($newUser);
         if($foundUser){
             return $foundUser;
         }else{
