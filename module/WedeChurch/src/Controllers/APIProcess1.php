@@ -237,12 +237,12 @@ class APIProcess1
 
             } elseif ($this->getRequestedService() == AvailableServices::CHURCH_GET) {
               //church get
+                print_r('heyyy');
                 if (FORMAT_GET_CHURCH::isValidParam($this->getRequestParam())) {
                       if ($this->getRequestParam()[FORMAT_GET_CHURCH::ID]){
                           $newChurch = new Church();
                           $newChurch->setId($this->getRequestParam()[FORMAT_GET_CHURCH::ID]);
                           $foundChurch = $this->ServiceManager->getChurch($newChurch);
-                          print_r($foundChurch);
                           $this->Message[ResponsesType::RESPONSE] = $foundChurch;
 
                       }elseif($this->getRequestParam()[FORMAT_GET_CHURCH::ID] == null)
