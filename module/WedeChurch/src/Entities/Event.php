@@ -47,8 +47,8 @@ class Event extends BaseTable
     protected $longitude;
     /**
      * One Product has Many Features.
-     * @ORM\ManyToOne(targetEntity="event_category")
-     * @ORM\JoinColumn(name="Event_category_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Event_category")
+     * @ORM\JoinColumn(name="event_category_id", referencedColumnName="id")
      * @var event_category $event_category_id
      */
     protected $event_category_id;
