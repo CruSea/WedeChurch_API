@@ -306,7 +306,11 @@ class Service implements ServicesMethods
     public function getAllEvent()
     {
         $foundEvents = [];
-        $AllfoundEvent = $this->EntityManager->getRepository(Event::class)->findAll();
+        try {
+            $AllfoundEvent = $this->EntityManager->getRepository(Event::class)->findAll();
+        }catch (\Exception $exception){
+            print $exception ;
+        }
         foreach ($AllfoundEvent as $event){
 
             $foundEvents[] = $event->getArray();
