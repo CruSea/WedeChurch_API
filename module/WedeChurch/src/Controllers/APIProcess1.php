@@ -248,8 +248,8 @@ class APIProcess1
                           $this->Message[ResponsesType::RESPONSE] = $foundChurch;
 
                       }elseif($this->getRequestParam()[FORMAT_GET_CHURCH::ID] == null)
-                          print_r('heyyy no id');
                           $foundChurch = $this->ServiceManager->getAllChurch();
+                          print_r('heyyy no id');
                           $this->Message[ResponsesType::RESPONSE] = $foundChurch;
 
                     }
