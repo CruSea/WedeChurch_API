@@ -175,7 +175,8 @@ class APIProcess1
     }
 
     private function ProcessRequest()
-    {   print_r('heyyyy');
+    {
+        print_r('heyyyy on entry');
         if (in_array($this->getRequestedService(), array_values(AvailableServices::getConstants()))) {
             /**
              * Check for Services
@@ -199,8 +200,9 @@ class APIProcess1
                 }
             } elseif ($this->getRequestedService() == AvailableServices::REGISTER) {
                 /** Sign up new user */
+                print_r('heyyyy on  registry entry');
                 if (FORMAT_REGISTER::isValidParam($this->getRequestParam())) {
-                    $superAdmin = $this->getSuperAdmin();
+                     $superAdmin = $this->getSuperAdmin();
                     if ($superAdmin) {
                         $newUser = new User();
                         $newUser->setUserPass($this->getRequestParam()[FORMAT_REGISTER::USER_PASS]);
