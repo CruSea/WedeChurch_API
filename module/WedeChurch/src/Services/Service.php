@@ -57,7 +57,7 @@ class Service implements ServicesMethods
         if($user->getId()){
             try {
                 $foundUser = $this->EntityManager->getRepository(User::class)->find($user->getId());
-            }catch (ORMException $exception){
+            }catch (\Exception $exception){
 
                 print $exception;
             }
