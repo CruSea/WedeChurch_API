@@ -202,8 +202,8 @@ class APIProcess1
                 /** Sign up new user */
                 if (FORMAT_REGISTER::isValidParam($this->getRequestParam())) {
                      $superAdmin = $this->getSuperAdmin();
-                    print_r('heyyyy on  registry entry');
                     if ($superAdmin) {
+                        print_r($superAdmin);
                         $newUser = new User();
                         $newUser->setUserPass($this->getRequestParam()[FORMAT_REGISTER::USER_PASS]);
                         $newUser->setUserName($this->getRequestParam()[FORMAT_REGISTER::USER_NAME]);
