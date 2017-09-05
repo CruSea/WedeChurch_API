@@ -228,7 +228,11 @@ class Service implements ServicesMethods
     public function getAllChurch()
     {
         $foundChurches = [];
-        $allChurches = $this->EntityManager->getRepository(Church::class)->findAll();
+        try {
+            $allChurches = $this->EntityManager->getRepository(Church::class)->findAll();
+        }catch (\Exception $exception){
+            print $exception;
+        }
         foreach ($allChurches as $church){
             $foundChurches[] = $church->getArray();
         }
