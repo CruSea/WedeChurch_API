@@ -200,8 +200,8 @@ class APIProcess1
                 }
             } elseif ($this->getRequestedService() == AvailableServices::REGISTER) {
                 /** Sign up new user */
-                print_r('heyyyy on  registry entry');
                 if (FORMAT_REGISTER::isValidParam($this->getRequestParam())) {
+                    print_r('heyyyy on  registry entry');
                      $superAdmin = $this->getSuperAdmin();
                     if ($superAdmin) {
                         $newUser = new User();
