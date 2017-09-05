@@ -28,7 +28,7 @@ class Event extends BaseTable
     protected $name;
     /**
      * One Product has Many Features.
-     * @ORM\ManyToOne(targetEntity="church")
+     * @ORM\ManyToOne(targetEntity="Church")
      * @ORM\JoinColumn(name="church_id", referencedColumnName="id")
      * @var church $church_id
      */
