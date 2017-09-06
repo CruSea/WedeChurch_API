@@ -45,6 +45,22 @@ class Event extends BaseTable
      * @ORM\Column(name="longitude", type="string", unique=false, nullable=false)
      */
     protected $longitude;
+
+    /**
+     * @return event_category
+     */
+    public function getEventCategoryId()
+    {
+        return $this->event_category_id;
+    }
+
+    /**
+     * @param event_category $event_category_id
+     */
+    public function setEventCategoryId($event_category_id)
+    {
+        $this->event_category_id = $event_category_id;
+    }
     /**
      * One Product has Many Features.
      * @ORM\ManyToOne(targetEntity="Event_category")
@@ -169,21 +185,21 @@ class Event extends BaseTable
         $this->longitude = $longitude;
     }
 
-    /**
-     * @return event_category
-     */
-    public function getEventCatagoryId()
-    {
-        return $this->event_catagory_id;
-    }
+//    /**
+//     * @return event_category
+//     */
+//    public function getEventCatagoryId()
+//    {
+//        return $this->event_catagory_id;
+//    }
 
-    /**
-     * @param event_category $event_category_id
-     */
-    public function setEventCatagoryId($event_catagory_id)
-    {
-        $this->event_catagory_id = $event_catagory_id;
-    }
+//    /**
+//     * @param event_category $event_category_id
+//     */
+//    public function setEventCatagoryId($event_catagory_id)
+//    {
+//        $this->event_catagory_id = $event_catagory_id;
+//    }
 
     /**
      * @return mixed
@@ -273,7 +289,7 @@ class Event extends BaseTable
             'location' => $this ->getLocation(),
             'latitude' => $this ->getLatitude(),
             'longitude' => $this ->getLongitude(),
-            'event_category_id'=>$this->getEventCatagoryId()->getId(),
+            'event_category_id'=>$this->getEventCategoryId()->getId(),
             'banner'=>$this->getBanner(),
             'description'=>$this->getDescription(),
             'contact_info'=>$this->getContactInfo(),
