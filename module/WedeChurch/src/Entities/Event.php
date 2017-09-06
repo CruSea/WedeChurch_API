@@ -268,6 +268,7 @@ class Event extends BaseTable
     public function getArray(){
         return array(
             'id'=>$this->getId(),
+            'name'=>$this->getName(),
             'church_id' =>$this->getChurchId()->getArray(),
             'location' => $this ->getLocation(),
             'latitude' => $this ->getLatitude(),
