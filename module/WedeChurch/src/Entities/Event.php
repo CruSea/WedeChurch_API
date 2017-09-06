@@ -273,7 +273,7 @@ class Event extends BaseTable
             'location' => $this ->getLocation(),
             'latitude' => $this ->getLatitude(),
             'longitude' => $this ->getLongitude(),
-            'event_category_id'=>$this->getEventCatagoryId(),
+            'event_category_id'=>$this->getEventCatagoryId()->getId(),
             'banner'=>$this->getBanner(),
             'description'=>$this->getDescription(),
             'contact_info'=>$this->getContactInfo(),
