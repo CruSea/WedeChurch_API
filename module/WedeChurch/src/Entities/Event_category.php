@@ -64,9 +64,9 @@ class Event_category extends BaseTable
             'name'=>$this->getName(),
             'is_deleted'=>$this->getIsDeleted(),
             'is_active'=>$this->getIsActive(),
-            'updated_by'=>$this->getUpdatedBy()->getFullName(),
+            'updated_by'=>$this->getUpdatedBy()->getId(),
             'updated_date'=>$this->getUpdatedDate(),
-            'created_by'=>$this->getCreatedBy()->getFullName(),
+            'created_by'=>$this->getCreatedBy()->getId(),
             'created_date'=>$this->getCreatedDate(),
         );
     }
