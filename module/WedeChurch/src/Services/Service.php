@@ -199,8 +199,14 @@ class Service implements ServicesMethods
         $church->setIsDeleted(0);
         $church->setCreatedDate(new \DateTime('now'));
         $church->setUpdatedDate(new \DateTime('now'));
-        $this->EntityManager->persist($church);
-        $this->EntityManager->flush();
+        try {
+            $this->EntityManager->persist($church);
+        }
+        catch (\Exception $exception){
+                print $exception;
+            }
+        $this->EntityManager->flush($church);
+
         if($church->getId()){
             return $church;
         }else{
