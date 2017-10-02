@@ -91,9 +91,7 @@ class Favorite extends BaseTable
             'church'=>$this->getChurch()->getId(),
             'is_deleted'=>$this->getIsDeleted(),
             'is_active'=>$this->getIsActive(),
-            'updated_by'=>$this->getUpdatedBy()->getId(),
             'updated_date'=>$this->getUpdatedDate(),
-            'created_by'=>$this->getCreatedBy()->getId(),
             'created_date'=>$this->getCreatedDate(),
         );
     }
