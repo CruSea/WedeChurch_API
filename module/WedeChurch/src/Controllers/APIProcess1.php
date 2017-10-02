@@ -269,8 +269,6 @@ class APIProcess1
                     if ($USER) {
                         $favorite = new Favorite();
                         $favorite->setUser($USER);
-                        $favorite->setUpdatedBy($USER);
-                        $favorite->setCreatedBy($USER);
                         $church = new Church();
                         $church ->setId($this->getRequestParam()[FORMAT_FAVORITE::ID]);
                         $fchurch = $this->ServiceManager->getChurch($church);
@@ -286,18 +284,18 @@ class APIProcess1
                         else { $this->Message[ResponsesType::ERROR] = "invalid church is given";}
 
                     }else {
-                    $this->Message[ResponsesType::ERROR] = "Invalid favorite format";
+                    $this->Message[ResponsesType::ERROR] = "no  user to add new favorite record";
                 }
                 }
-            } elseif ($this->getRequestedService() == AvailableServices::Favorite_get) {
-                //favorite get
-                if (FORMAT_FAVORITE::isValidParam($this->getRequestParam())) {
-                        $USER = $this->getMainUser();
-                        $favChurch = new Favorite();
-                        $favChurch->setUser($USER);
-                        $foundFavChurch = $this->ServiceManager->getUserFavorite($favChurch);
-                        $this->Message[ResponsesType::RESPONSE] = $foundFavChurch;
-                }
+//            } elseif ($this->getRequestedService() == AvailableServices::Favorite_get) {
+//                //favorite get
+//                if (FORMAT_FAVORITE::isValidParam($this->getRequestParam())) {
+//                        $USER = $this->getMainUser();
+//                        $favChurch = new Favorite();
+//                        $favChurch->setUser($USER);
+//                        $foundFavChurch = $this->ServiceManager->getUserFavorite($favChurch);
+//                        $this->Message[ResponsesType::RESPONSE] = $foundFavChurch;
+//                }
             }
             elseif ($this->getRequestedService() == AvailableServices::CHURCH_GET) {
                 //favorite get
