@@ -21,6 +21,7 @@ use WedeChurch\Entities\Privilege;
 use WedeChurch\Entities\Schedule;
 use WedeChurch\Entities\Schedule_category;
 use WedeChurch\Entities\User;
+use WedeChurch\Entities\Denomination;
 
 class Service implements ServicesMethods
 {
@@ -46,8 +47,14 @@ class Service implements ServicesMethods
         $user->setCreatedDate(new \DateTime('now'));
         $user->setUpdatedDate(new \DateTime('now'));
         $user->setUserPass(sha1($user->getUserPass()));
-        $this->EntityManager->persist($user);
-        $this->EntityManager->flush();
+        try {
+            $this->EntityManager->persist($user);
+            $this->EntityManager->flush();
+        }catch (\Exception $exception
+            ){
+            print $exception;
+        }
+
         if($user->getId()){
             return $user;
         }else{
@@ -199,13 +206,15 @@ class Service implements ServicesMethods
         $church->setIsDeleted(0);
         $church->setCreatedDate(new \DateTime('now'));
         $church->setUpdatedDate(new \DateTime('now'));
+        print_r('');
         try {
             $this->EntityManager->persist($church);
+            $this->EntityManager->flush($church);
         }
         catch (\Exception $exception){
                 print $exception;
             }
-        $this->EntityManager->flush($church);
+
 
         if($church->getId()){
             return $church;
@@ -304,7 +313,7 @@ class Service implements ServicesMethods
              * @var Event $_event
              */
             if($event->getId() == $_event->getId()){
-                $foundEvent  = $_event->getArray();
+                $foundEvent  = $_event;
                 return $foundEvent;
             }
         }
@@ -590,8 +599,13 @@ class Service implements ServicesMethods
         $favorite->setIsDeleted(0);
         $favorite->setCreatedDate(new \DateTime('now'));
         $favorite->setUpdatedDate(new \DateTime('now'));
-        $this->EntityManager->persist($favorite);
-        $this->EntityManager->flush();
+        try {
+            $this->EntityManager->persist($favorite);
+            $this->EntityManager->flush();
+        }catch (\Exception $exception)
+        {
+            print $exception;
+        }
         if($favorite->getId()){
             return $favorite;
         }else{
@@ -614,6 +628,22 @@ class Service implements ServicesMethods
         return null;
     }
 
+    public function getUserFavorite(Favorite $favorite)
+    {
+       $foundFavorites = [];
+        $userid = $favorite->getUser()->getId();
+        try{
+            $AllfoundFavorite = $this->EntityManager->getRepository(Favorite::class)->createQueryBuilder('userFav')
+                ->Andwhere('userFav.user = :searchTerm')->setParameter('searchTerm',$userid)->getQuery()->execute();
+        }catch (\Exception $exception) {
+            print $exception;
+        }
+        foreach ($AllfoundFavorite as $_favorite){
+                $foundFavorites  = $_favorite;
+        }
+        return $AllfoundFavorite;
+    }
+
     public function getAllFavorite()
     {
         $foundFavorites = [];
@@ -624,7 +654,7 @@ class Service implements ServicesMethods
         }
         foreach ($AllfoundFavorite as $favorite){
 
-            $foundFavorites[] = $favorite->getArray();
+            $foundFavorites[] = $favorite;
         }
         return  $foundFavorites;
     }
@@ -652,6 +682,90 @@ class Service implements ServicesMethods
             $foundFavorite = $this->getFavorite($favorite);
             if($foundFavorite){
                 $this->EntityManager->remove($foundFavorite);
+                $this->EntityManager->flush();
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
+    }
+
+    //denomination
+    public function addDenomination(Denomination $denomination)
+    {
+        $denomination->setId(null);
+        $denomination->setIsActive(1);
+        $denomination->setIsDeleted(0);
+        $denomination->setCreatedDate(new \DateTime('now'));
+        $denomination->setUpdatedDate(new \DateTime('now'));
+        $this->EntityManager->persist($denomination);
+        $this->EntityManager->flush();
+        if($denomination->getId()){
+            return $denomination;
+        }else{
+            return null;
+        }
+    }
+
+    public function getDenomination(Denomination $denomination)
+    {
+
+        try{
+            $AllfoundDenomination = $this->EntityManager->getRepository(Denomination::class)->findAll();
+        }catch (\Exception $exception){
+            print $exception;
+        }
+
+        foreach ($AllfoundDenomination as $_denomination){
+            /**
+             * @var Denomination $_denomination
+             */
+            if($denomination->getId() == $_denomination->getId()){
+                $foundDenomination  = $_denomination->getArray();
+                return $foundDenomination;
+            }
+        }
+        return null;
+    }
+
+    public function getAllDenomination()
+    {
+        $foundDenomination = [];
+        try {
+            $AllfoundDenomination = $this->EntityManager->getRepository(Denomination::class)->findAll();
+        }catch (\Exception $exception){
+            print $exception ;
+        }
+        foreach ($AllfoundDenomination as $denomination){
+            $foundDenomination[] = $denomination->getArray();
+        }
+        return  $foundDenomination;
+    }
+
+    public function updateDenomination(Denomination $denomination)
+    {
+        if($denomination->getId()) {
+            $this->EntityManager->persist($denomination);
+            $this->EntityManager->flush();
+            if ($denomination->getId()) {
+                return $denomination;
+            } else {
+                return null;
+            }
+        }
+        return false;
+    }
+
+    public function removeDenomination(Denomination $denomination)
+    {
+        if($denomination){
+            /**
+             * @var Denomination $foundDenomination
+             */
+            $foundDenomination = $this->getDenomination($denomination);
+            if($foundDenomination){
+                $this->EntityManager->remove($foundDenomination);
                 $this->EntityManager->flush();
                 return true;
             }else{

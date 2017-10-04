@@ -17,6 +17,7 @@ use WedeChurch\Entities\Event_category;
 use WedeChurch\Entities\Schedule_category;
 use WedeChurch\Entities\Schedule;
 use WedeChurch\Entities\Favorite;
+use WedeChurch\Entities\Denomination;
 
 interface ServicesMethods
 {
@@ -95,8 +96,20 @@ interface ServicesMethods
      */
     public function addFavorite(Favorite $favorite);
     public function getFavorite(Favorite $favorite);
+    public function getUserFavorite(Favorite $favorite);
     public function getAllFavorite();
     public function updateFavorite(Favorite $favorite);
     public function removeFavorite(Favorite $favorite);
+
+    /**
+     * Table Denomination
+     * @return mixed
+     */
+    public function addDenomination(Denomination $denomination);
+    public function getDenomination(Denomination $denomination);
+    public function getAllDenomination();
+    public function updateDenomination(Denomination $denomination);
+    public function removeDenomination(Denomination $denomination);
+
 
 }
