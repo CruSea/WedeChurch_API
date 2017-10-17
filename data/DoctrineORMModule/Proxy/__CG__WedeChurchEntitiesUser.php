@@ -64,10 +64,10 @@ class User extends \WedeChurch\Entities\User implements \Doctrine\ORM\Proxy\Prox
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'userName', 'userPass', 'fullName', 'email', 'sex', 'phone', 'privilege', 'isDeleted', 'isActive', 'updatedBy', 'updatedDate', 'createdBy', 'createdDate'];
+            return ['__isInitialized__', 'id', 'userName', 'userPass', 'firstName', 'lastName', 'email', 'Country', 'sex', 'phone', 'privilege', 'isDeleted', 'isActive', 'updatedBy', 'updatedDate', 'createdBy', 'createdDate'];
         }
 
-        return ['__isInitialized__', 'id', 'userName', 'userPass', 'fullName', 'email', 'sex', 'phone', 'privilege', 'isDeleted', 'isActive', 'updatedBy', 'updatedDate', 'createdBy', 'createdDate'];
+        return ['__isInitialized__', 'id', 'userName', 'userPass', 'firstName', 'lastName', 'email', 'Country', 'sex', 'phone', 'privilege', 'isDeleted', 'isActive', 'updatedBy', 'updatedDate', 'createdBy', 'createdDate'];
     }
 
     /**
@@ -246,23 +246,67 @@ class User extends \WedeChurch\Entities\User implements \Doctrine\ORM\Proxy\Prox
     /**
      * {@inheritDoc}
      */
-    public function getFullName()
+    public function getFirstName()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFullName', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFirstName', []);
 
-        return parent::getFullName();
+        return parent::getFirstName();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setFullName($fullName)
+    public function setFirstName($firstName)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFullName', [$fullName]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFirstName', [$firstName]);
 
-        return parent::setFullName($fullName);
+        return parent::setFirstName($firstName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLastName()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLastName', []);
+
+        return parent::getLastName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLastName($lastName)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLastName', [$lastName]);
+
+        return parent::setLastName($lastName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCountry()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCountry', []);
+
+        return parent::getCountry();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setCountry($Country)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCountry', [$Country]);
+
+        return parent::setCountry($Country);
     }
 
     /**

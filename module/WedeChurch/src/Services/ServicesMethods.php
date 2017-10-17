@@ -14,6 +14,10 @@ use WedeChurch\Entities\User;
 use WedeChurch\Entities\Church;
 use WedeChurch\Entities\Event;
 use WedeChurch\Entities\Event_category;
+use WedeChurch\Entities\Schedule_category;
+use WedeChurch\Entities\Schedule;
+use WedeChurch\Entities\Favorite;
+use WedeChurch\Entities\Denomination;
 
 interface ServicesMethods
 {
@@ -67,4 +71,45 @@ interface ServicesMethods
     public function getAllEvent_Category();
     public function updateEvent_Category(Event_category $event_category);
     public function removeEvent_Category(Event_category $event_category);
+
+    /**
+     * Table schedule_category
+     * @return mixed
+     */
+    public function addSchedule_category(Schedule_category $schedule_category);
+    public function getSchedule_category(Schedule_category $schedule_category);
+    public function getAllSchedule_category();
+    public function updateSchedule_category(Schedule_category $schedule_category);
+    public function removeSchedule_category(Schedule_category $schedule_category);
+    /**
+     * Table schedule
+     * @return mixed
+     */
+    public function addSchedule(Schedule $schedule);
+    public function getSchedule(Schedule $schedule);
+    public function getAllSchedule();
+    public function updateSchedule(Schedule $schedule);
+    public function removeSchedule(Schedule $schedule);
+    /**
+     * Table favorite
+     * @return mixed
+     */
+    public function addFavorite(Favorite $favorite);
+    public function getFavorite(Favorite $favorite);
+    public function getUserFavorite(Favorite $favorite);
+    public function getAllFavorite();
+    public function updateFavorite(Favorite $favorite);
+    public function removeFavorite(Favorite $favorite);
+
+    /**
+     * Table Denomination
+     * @return mixed
+     */
+    public function addDenomination(Denomination $denomination);
+    public function getDenomination(Denomination $denomination);
+    public function getAllDenomination();
+    public function updateDenomination(Denomination $denomination);
+    public function removeDenomination(Denomination $denomination);
+
+
 }

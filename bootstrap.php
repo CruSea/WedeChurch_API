@@ -17,10 +17,10 @@ $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__."/module/We
 //$config = Setup::createYAMLMetadataConfiguration(array(__DIR__."/config/yaml"), $isDevMode);
 // database configuration parametersgit
 $conn = array(
-    'dbname' => 'WedeChurch',
-    'user' => 'bengeos',
-    'password' => 'passben',
-    'host' => 'localhost:8889',
+    'dbname' => 'wedeChurch',
+    'user' => 'root',
+    'password' => '',
+    'host' => 'localhost:3306',
     'driver' => 'pdo_mysql',
     'charset' => 'utf8',
     'driverOptions' => array(

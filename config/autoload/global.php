@@ -12,10 +12,10 @@
  */
 
 $dbParams = array(
-    'hostname' => '127.0.0.1',
-    'port' => 8889,
+    'hostname' => 'localhost',
+    'port' => 3306,
     'username' => 'root',
-    'password' => 'root',
+    'password' => '',
     'database' => 'WedeChurch'
 );
 return array(

@@ -28,9 +28,9 @@ class Event extends BaseTable
     protected $name;
     /**
      * One Product has Many Features.
-     * @ORM\ManyToOne(targetEntity="church")
+     * @ORM\ManyToOne(targetEntity="Church")
      * @ORM\JoinColumn(name="church_id", referencedColumnName="id")
-     * @var church $church_id
+     * @var church $church
      */
     protected $church_id;
     /**
@@ -45,9 +45,25 @@ class Event extends BaseTable
      * @ORM\Column(name="longitude", type="string", unique=false, nullable=false)
      */
     protected $longitude;
+
+    /**
+     * @return event_category
+     */
+    public function getEventCategoryId()
+    {
+        return $this->event_category_id;
+    }
+
+    /**
+     * @param event_category $event_category_id
+     */
+    public function setEventCategoryId($event_category_id)
+    {
+        $this->event_category_id = $event_category_id;
+    }
     /**
      * One Product has Many Features.
-     * @ORM\ManyToOne(targetEntity="event_category")
+     * @ORM\ManyToOne(targetEntity="Event_category")
      * @ORM\JoinColumn(name="event_category_id", referencedColumnName="id")
      * @var event_category $event_category_id
      */
@@ -169,21 +185,21 @@ class Event extends BaseTable
         $this->longitude = $longitude;
     }
 
-    /**
-     * @return event_category
-     */
-    public function getEventCatagoryId()
-    {
-        return $this->event_catagory_id;
-    }
+//    /**
+//     * @return event_category
+//     */
+//    public function getEventCatagoryId()
+//    {
+//        return $this->event_catagory_id;
+//    }
 
-    /**
-     * @param event_category $event_category_id
-     */
-    public function setEventCatagoryId($event_catagory_id)
-    {
-        $this->event_catagory_id = $event_catagory_id;
-    }
+//    /**
+//     * @param event_category $event_category_id
+//     */
+//    public function setEventCatagoryId($event_catagory_id)
+//    {
+//        $this->event_catagory_id = $event_catagory_id;
+//    }
 
     /**
      * @return mixed
@@ -268,11 +284,12 @@ class Event extends BaseTable
     public function getArray(){
         return array(
             'id'=>$this->getId(),
-            'church_id' =>$this->getChurchId(),
+            'name'=>$this->getName(),
+            'church_id' =>$this->getChurchId()->getArray(),
             'location' => $this ->getLocation(),
             'latitude' => $this ->getLatitude(),
             'longitude' => $this ->getLongitude(),
-            'event_category_id'=>$this->getEventCatagoryId(),
+            'event_category_id'=>$this->getEventCategoryId()->getId(),
             'banner'=>$this->getBanner(),
             'description'=>$this->getDescription(),
             'contact_info'=>$this->getContactInfo(),
@@ -280,9 +297,9 @@ class Event extends BaseTable
             'end_date'=>$this->getEndDate(),
             'is_deleted'=>$this->getIsDeleted(),
             'is_active'=>$this->getIsActive(),
-            'updated_by'=>$this->getUpdatedBy()->getFullName(),
+            'updated_by'=>$this->getUpdatedBy()->getId(),
             'updated_date'=>$this->getUpdatedDate(),
-            'created_by'=>$this->getCreatedBy()->getFullName(),
+            'created_by'=>$this->getCreatedBy()->getId(),
             'created_date'=>$this->getCreatedDate(),
         );
     }

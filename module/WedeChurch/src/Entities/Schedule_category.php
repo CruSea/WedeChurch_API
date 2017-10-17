@@ -1,9 +1,9 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: fre
- * Date: 6/21/17
- * Time: 6:10 PM
+ * User: frezertade
+ * Date: 9/18/17
+ * Time: 3:24 PM
  */
 
 namespace WedeChurch\Entities;
@@ -11,9 +11,9 @@ namespace WedeChurch\Entities;
 use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
- * @ORM\Table(name="denomination")
+ * @ORM\Table(name="schedule_category")
  */
-class Denomination extends BaseTable
+class Schedule_category extends BaseTable
 {
     /**
      * @ORM\Id
@@ -70,5 +70,4 @@ class Denomination extends BaseTable
             'created_date'=>$this->getCreatedDate(),
         );
     }
-
 }

@@ -7,7 +7,9 @@
  */
 
 namespace WedeChurch\Entities;
+
 use Doctrine\ORM\Mapping as ORM;
+use WedeChurch\Entities\Denomination as denomination;
 /**
  * @ORM\Entity
  * @ORM\Table(name="church")
@@ -58,7 +60,7 @@ class Church extends BaseTable
      */
     protected $WebUrl;
     /**
-     * @ORM\ManyToOne(targetEntity="denomination")
+     * @ORM\ManyToOne(targetEntity="Denomination")
      * @ORM\JoinColumn(name="denomination", referencedColumnName="id")
      * @var Denomination $denomination
      */
@@ -359,9 +361,9 @@ class Church extends BaseTable
             'state' => $this->getState(),
             'is_deleted'=>$this->getIsDeleted(),
             'is_active'=>$this->getIsActive(),
-            'updated_by'=>$this->getUpdatedBy()->getFullName(),
+            'updated_by'=>$this->getUpdatedBy()->getId(),
             'updated_date'=>$this->getUpdatedDate(),
-            'created_by'=>$this->getCreatedBy()->getFullName(),
+            'created_by'=>$this->getCreatedBy()->getId(),
             'created_date'=>$this->getCreatedDate(),
         );
     }

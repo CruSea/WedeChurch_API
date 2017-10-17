@@ -9,13 +9,19 @@
 namespace WedeChurch\Services;
 
 
+use Doctrine\Common\Annotations\AnnotationException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\ORM\ORMException;
 use WedeChurch\Entities\Church;
 use WedeChurch\Entities\Event;
 use WedeChurch\Entities\Event_category;
+use WedeChurch\Entities\Favorite;
 use WedeChurch\Entities\Privilege;
+use WedeChurch\Entities\Schedule;
+use WedeChurch\Entities\Schedule_category;
 use WedeChurch\Entities\User;
+use WedeChurch\Entities\Denomination;
 
 class Service implements ServicesMethods
 {
@@ -41,8 +47,14 @@ class Service implements ServicesMethods
         $user->setCreatedDate(new \DateTime('now'));
         $user->setUpdatedDate(new \DateTime('now'));
         $user->setUserPass(sha1($user->getUserPass()));
-        $this->EntityManager->persist($user);
-        $this->EntityManager->flush();
+        try {
+            $this->EntityManager->persist($user);
+            $this->EntityManager->flush();
+        }catch (\Exception $exception
+            ){
+            print $exception;
+        }
+
         if($user->getId()){
             return $user;
         }else{
@@ -53,7 +65,12 @@ class Service implements ServicesMethods
     public function getUser(User $user)
     {
         if($user->getId()){
-            $foundUser = $this->EntityManager->getRepository(User::class)->find($user->getId());
+            try {
+                $foundUser = $this->EntityManager->getRepository(User::class)->find($user->getId());
+            }catch (\Exception $exception){
+
+                print $exception;
+            }
             return $foundUser;
         }else{
             return null;
@@ -77,12 +94,10 @@ class Service implements ServicesMethods
     public function checkUser(User $user)
     {
         $allUsers = $this->EntityManager->getRepository(User::class)->findAll();
-
         foreach ($allUsers as $_user){
             /**
              * @var User $_user
              */
-
             if(($_user->getUserPass() == sha1($user->getUserPass())) &&
                 (($_user->getUserName() == $user->getUserName()) || ($_user->getEmail() == $user->getEmail()))){
                 return $_user;
@@ -191,8 +206,16 @@ class Service implements ServicesMethods
         $church->setIsDeleted(0);
         $church->setCreatedDate(new \DateTime('now'));
         $church->setUpdatedDate(new \DateTime('now'));
-        $this->EntityManager->persist($church);
-        $this->EntityManager->flush();
+        print_r('');
+        try {
+            $this->EntityManager->persist($church);
+            $this->EntityManager->flush($church);
+        }
+        catch (\Exception $exception){
+                print $exception;
+            }
+
+
         if($church->getId()){
             return $church;
         }else{
@@ -202,7 +225,12 @@ class Service implements ServicesMethods
 
     public function getChurch(Church $church)
     {
-        $AllfoundChurch = $this->EntityManager->getRepository(Church::class)->findAll();
+        try {
+            $AllfoundChurch = $this->EntityManager->getRepository(Church::class)->findAll();
+        }catch (\Exception $exception)
+        {
+            print $exception;
+        }
         foreach ($AllfoundChurch as $_church){
             /**
              * @var Church $_church
@@ -218,7 +246,11 @@ class Service implements ServicesMethods
     public function getAllChurch()
     {
         $foundChurches = [];
-        $allChurches = $this->EntityManager->getRepository(Church::class)->findAll();
+        try {
+            $allChurches = $this->EntityManager->getRepository(Church::class)->findAll();
+        }catch (\Exception $exception){
+            print $exception;
+        }
         foreach ($allChurches as $church){
             $foundChurches[] = $church->getArray();
         }
@@ -281,7 +313,7 @@ class Service implements ServicesMethods
              * @var Event $_event
              */
             if($event->getId() == $_event->getId()){
-                $foundEvent  = $_event->getArray();
+                $foundEvent  = $_event;
                 return $foundEvent;
             }
         }
@@ -292,7 +324,11 @@ class Service implements ServicesMethods
     public function getAllEvent()
     {
         $foundEvents = [];
-        $AllfoundEvent = $this->EntityManager->getRepository(Event::class)->findAll();
+        try {
+            $AllfoundEvent = $this->EntityManager->getRepository(Event::class)->findAll();
+        }catch (\Exception $exception){
+            print $exception ;
+        }
         foreach ($AllfoundEvent as $event){
 
             $foundEvents[] = $event->getArray();
@@ -398,6 +434,345 @@ class Service implements ServicesMethods
         }
         return false;
 
+    }
+
+
+
+
+    //schedule category
+
+    public function addSchedule_category(Schedule_category $schedule_category)
+    {
+        $schedule_category->setId(null);
+        $schedule_category->setIsActive(1);
+        $schedule_category->setIsDeleted(0);
+        $schedule_category->setCreatedDate(new \DateTime('now'));
+        $schedule_category->setUpdatedDate(new \DateTime('now'));
+        $this->EntityManager->persist($schedule_category);
+        $this->EntityManager->flush();
+        if($schedule_category->getId()){
+            return $schedule_category;
+        }else{
+            return null;
+        }
+    }
+
+    public function getSchedule_category(Schedule_category $schedule_category)
+    {
+        if($schedule_category->getId()){
+            $foundSchedule_category = $this->EntityManager->getRepository(Schedule_category::class)->find($schedule_category->getId());
+            return  $foundSchedule_category;
+        }else{
+            return null;
+        }
+    }
+
+    public function getAllSchedule_category()
+    {
+        $foundSchedule_category = [];
+        $allSchedule_category = $this->EntityManager->getRepository(Schedule_category::class)->findAll();
+        foreach ($allSchedule_category as $schedule_category){
+
+            $foundSchedule_category[] = $schedule_category->getArray();
+        }
+        return  $foundSchedule_category;
+    }
+
+    public function updateSchedule_category(Schedule_category $schedule_category)
+    {
+        if( $schedule_category->getId()){
+            $this->EntityManager->persist($schedule_category);
+            $this->EntityManager->flush();
+            if( $schedule_category->getId()){
+                return  $schedule_category;
+            }else{
+                return null;
+            }
+        }
+    }
+
+    public function removeSchedule_category(Schedule_category $schedule_category)
+    {
+        if($schedule_category){
+            /**
+             * @var $schedule_category  $foundSchedule_category
+             */
+            $foundSchedule_category = $this->getSchedule_category($schedule_category);
+            if( $foundSchedule_category){
+                $this->EntityManager->remove( $foundSchedule_category);
+                $this->EntityManager->flush();
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
+    }
+
+
+    //  //schedule
+
+    public function addSchedule(Schedule $schedule)
+    {
+        $schedule->setId(null);
+        $schedule->setIsActive(1);
+        $schedule->setIsDeleted(0);
+        $schedule->setCreatedDate(new \DateTime('now'));
+        $schedule->setUpdatedDate(new \DateTime('now'));
+        $this->EntityManager->persist($schedule);
+        $this->EntityManager->flush();
+        if($schedule->getId()){
+            return $schedule;
+        }else{
+            return null;
+        }
+    }
+
+    public function getSchedule(Schedule $schedule)
+    {
+        $AllfoundSchedule = $this->EntityManager->getRepository(Schedule::class)->findAll();
+        foreach ($AllfoundSchedule as $_schedule){
+            /**
+             * @var Schedule $_schedule
+             */
+            if($schedule->getId() == $_schedule->getId()){
+                $foundSchedule  = $_schedule->getArray();
+                return $foundSchedule;
+            }
+        }
+        return null;
+    }
+
+    public function getAllSchedule()
+    {
+        $foundSchedules = [];
+        try {
+            $AllfoundSchedule = $this->EntityManager->getRepository(Schedule::class)->findAll();
+        }catch (\Exception $exception){
+            print $exception ;
+        }
+        foreach ($AllfoundSchedule as $schedule){
+
+            $foundSchedules[] = $schedule->getArray();
+        }
+        return  $foundSchedules;
+    }
+
+    public function updateSchedule(Schedule $schedule)
+    {
+        if($schedule->getId()) {
+            $this->EntityManager->persist($schedule);
+            $this->EntityManager->flush();
+            if ($schedule->getId()) {
+                return $schedule;
+            } else {
+                return null;
+            }
+        }
+        return false;
+    }
+
+    public function removeSchedule(Schedule $schedule)
+    {
+        if($schedule){
+            /**
+             * @var Schedule $foundSchedule
+             */
+            $foundSchedule = $this->getSchedule($schedule);
+            if($foundSchedule){
+                $this->EntityManager->remove($foundSchedule);
+                $this->EntityManager->flush();
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
+    }
+
+    //Favorite
+
+    public function addFavorite(Favorite $favorite)
+    {
+        $favorite->setId(null);
+        $favorite->setIsActive(1);
+        $favorite->setIsDeleted(0);
+        $favorite->setCreatedDate(new \DateTime('now'));
+        $favorite->setUpdatedDate(new \DateTime('now'));
+        try {
+            $this->EntityManager->persist($favorite);
+            $this->EntityManager->flush();
+        }catch (\Exception $exception)
+        {
+            print $exception;
+        }
+        if($favorite->getId()){
+            return $favorite;
+        }else{
+            return null;
+        }
+    }
+
+    public function getFavorite(Favorite $favorite)
+    {
+        $AllfoundFavorite = $this->EntityManager->getRepository(Favorite::class)->findAll();
+        foreach ($AllfoundFavorite as $_favorite){
+            /**
+             * @var Favorite $_favorite
+             */
+            if($favorite->getId() == $_favorite->getId()){
+                $foundFavorite  = $_favorite->getArray();
+                return $foundFavorite;
+            }
+        }
+        return null;
+    }
+
+    public function getUserFavorite(Favorite $favorite)
+    {
+       $foundFavorites = [];
+        $userid = $favorite->getUser()->getId();
+        try{
+            $AllfoundFavorite = $this->EntityManager->getRepository(Favorite::class)->createQueryBuilder('userFav')
+                ->Andwhere('userFav.user = :searchTerm')->setParameter('searchTerm',$userid)->getQuery()->execute();
+        }catch (\Exception $exception) {
+            print $exception;
+        }
+        foreach ($AllfoundFavorite as $_favorite){
+                $foundFavorites  = $_favorite;
+        }
+        return $AllfoundFavorite;
+    }
+
+    public function getAllFavorite()
+    {
+        $foundFavorites = [];
+        try {
+            $AllfoundFavorite = $this->EntityManager->getRepository(Favorite::class)->findAll();
+        }catch (\Exception $exception){
+            print $exception ;
+        }
+        foreach ($AllfoundFavorite as $favorite){
+
+            $foundFavorites[] = $favorite;
+        }
+        return  $foundFavorites;
+    }
+
+    public function updateFavorite(Favorite $favorite)
+    {
+        if($favorite->getId()) {
+            $this->EntityManager->persist($favorite);
+            $this->EntityManager->flush();
+            if ($favorite->getId()) {
+                return $favorite;
+            } else {
+                return null;
+            }
+        }
+        return false;
+    }
+
+    public function removeFavorite(Favorite $favorite)
+    {
+        if($favorite){
+            /**
+             * @var Favorite $foundFavorite
+             */
+            $foundFavorite = $this->getFavorite($favorite);
+            if($foundFavorite){
+                $this->EntityManager->remove($foundFavorite);
+                $this->EntityManager->flush();
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
+    }
+
+    //denomination
+    public function addDenomination(Denomination $denomination)
+    {
+        $denomination->setId(null);
+        $denomination->setIsActive(1);
+        $denomination->setIsDeleted(0);
+        $denomination->setCreatedDate(new \DateTime('now'));
+        $denomination->setUpdatedDate(new \DateTime('now'));
+        $this->EntityManager->persist($denomination);
+        $this->EntityManager->flush();
+        if($denomination->getId()){
+            return $denomination;
+        }else{
+            return null;
+        }
+    }
+
+    public function getDenomination(Denomination $denomination)
+    {
+
+        try{
+            $AllfoundDenomination = $this->EntityManager->getRepository(Denomination::class)->findAll();
+        }catch (\Exception $exception){
+            print $exception;
+        }
+
+        foreach ($AllfoundDenomination as $_denomination){
+            /**
+             * @var Denomination $_denomination
+             */
+            if($denomination->getId() == $_denomination->getId()){
+                $foundDenomination  = $_denomination->getArray();
+                return $foundDenomination;
+            }
+        }
+        return null;
+    }
+
+    public function getAllDenomination()
+    {
+        $foundDenomination = [];
+        try {
+            $AllfoundDenomination = $this->EntityManager->getRepository(Denomination::class)->findAll();
+        }catch (\Exception $exception){
+            print $exception ;
+        }
+        foreach ($AllfoundDenomination as $denomination){
+            $foundDenomination[] = $denomination->getArray();
+        }
+        return  $foundDenomination;
+    }
+
+    public function updateDenomination(Denomination $denomination)
+    {
+        if($denomination->getId()) {
+            $this->EntityManager->persist($denomination);
+            $this->EntityManager->flush();
+            if ($denomination->getId()) {
+                return $denomination;
+            } else {
+                return null;
+            }
+        }
+        return false;
+    }
+
+    public function removeDenomination(Denomination $denomination)
+    {
+        if($denomination){
+            /**
+             * @var Denomination $foundDenomination
+             */
+            $foundDenomination = $this->getDenomination($denomination);
+            if($foundDenomination){
+                $this->EntityManager->remove($foundDenomination);
+                $this->EntityManager->flush();
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
     }
 
 
