@@ -78,7 +78,7 @@ class FORMAT_GET_EVENT extends BasicEnum {
 class FORMAT_CHURCH_REGISTER extends BasicEnum {
     const USER_NAME = 'user_name';
     const USER_PASS = 'user_pass';
-    const CHURCH_NAME = 'church_name';
+    const CHURCH_NAME ='church_name';
     const Country   = 'country';
     CONST Cities    = 'cities';
     const PHONE     = 'phone';
